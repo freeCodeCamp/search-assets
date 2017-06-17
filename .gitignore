@@ -1,0 +1,5 @@
+build
+devServer/build/**/*.js
+node_modules
+.env
+*.log

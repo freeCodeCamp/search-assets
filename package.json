@@ -1,0 +1,46 @@
+{
+  "name": "react-freecodecamp-search",
+  "version": "0.1.0",
+  "description": "A React component that utilises our Elasticsearch search engine",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "npm run lint",
+    "build": "webpack",
+    "dev": "npm run dev-build && nodemon devServer/server.js",
+    "dev-build": "webpack --config ./devServer/webpack.config.js",
+    "eslint-init": "eslint --init",
+    "lint": "eslint --ext .js,.jsx --ignore-path .gitignore .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Stuart Taylor",
+  "license": "BSD-3",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "babel-core": "^6.25.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-register": "^6.24.1",
+    "dotenv": "^4.0.0",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "socket.io": "^2.0.3",
+    "striptags": "^3.0.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-eslint": "^7.2.3",
+    "babel-istanbul": "^0.12.2",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "eslint": "^4.0.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^7.1.0",
+    "express": "^4.15.3",
+    "nodemon": "^1.11.0",
+    "webpack": "^2.6.1"
+  }
+}
