@@ -1,8 +1,26 @@
 # react-freecodecamp-search
 
-## Not published to npm yet!
+## Pushing for v1.0
 
-checkout the issues to get us there
+Checkout the issues to get us there
+
+## Usage
+
+`npm install react-freecodecamp-search -S`
+
+```js
+import fCCSearchBar from 'react-freecodecamp-search';
+
+// in your component
+
+render() {
+  return (
+    <fccSearchBar />
+  );
+}
+```
+
+Then search for something
 
 ## Contributing
 
