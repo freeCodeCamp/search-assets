@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 
 import Results from './components/Results.jsx';
 import SearchBar from './components/SearchBar.jsx';
@@ -8,10 +9,6 @@ import socket from './websocket';
 import * as styles from './styles';
 
 const { wrapper, appWrap } = styles;
-
-socket.on('connection', () => {
-  console.info('connected to elasticsearch!');
-});
 
 export default class fCCSearchBar extends React.PureComponent {
   constructor() {
@@ -40,13 +37,24 @@ export default class fCCSearchBar extends React.PureComponent {
     const {
       searchTerm
     } = this.state;
-    socket.emit(
-      'search-for-this',
-      JSON.stringify({ text: searchTerm }),
-      (response) => {
-        this.updateResults(response);
-      }
-    );
+    console.info(socket);
+    if (socket) {
+      socket.emit(
+        'search-for-this',
+        JSON.stringify({ text: searchTerm }),
+        (response) => {
+          this.updateResults(response);
+        }
+      );
+    } else {
+      axios.get('http://freecodecamp.duckdns.org/search?q=' + searchTerm)
+        .then(response => {
+          this.updateResults(response.data);
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    }
   }
 
   render() {
