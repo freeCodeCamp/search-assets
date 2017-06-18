@@ -10,7 +10,7 @@
     "dev-build": "webpack --config ./devServer/webpack.config.js",
     "eslint-init": "eslint --init",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npm run lint"
   },
   "keywords": [],
   "author": "Stuart Taylor",
