@@ -1,5 +1,7 @@
-build
-devServer/build/**/*.js
+build/*
+devServer/build/public/*.js
 node_modules
 .env
 *.log
+
+!devServer/**/*.html
