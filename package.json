@@ -2,7 +2,7 @@
   "name": "react-freecodecamp-search",
   "version": "0.1.0",
   "description": "A React component that utilises our Elasticsearch search engine",
-  "main": "index.js",
+  "main": "build/bundle.js",
   "scripts": {
     "prebuild": "npm run lint",
     "build": "webpack",
