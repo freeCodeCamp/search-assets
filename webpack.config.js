@@ -1,4 +1,3 @@
-require('dotenv').config();
 const path = require('path');
 
 const { NODE_ENV } = process.env;
@@ -11,12 +10,12 @@ if (NODE_ENV !== 'production') {
   `);
 }
 
-const outputPath = path.resolve(__dirname, 'build');
+const outputPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: 'bundle.js',
+    filename: 'index.js',
     path: outputPath
   },
   module: {

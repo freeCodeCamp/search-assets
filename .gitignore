@@ -1,4 +1,4 @@
-build/*
+dist/*
 devServer/build/public/*.js
 node_modules
 .env
