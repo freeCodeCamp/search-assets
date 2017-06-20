@@ -5,6 +5,6 @@
     "stage-0"
   ],
   "plugins": [
-    "babel-plugin-add-module-exports"
+    "add-module-exports"
   ]
 }

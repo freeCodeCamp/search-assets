@@ -16,7 +16,8 @@ module.exports = {
   entry: './src/index.js',
   output: {
     filename: 'index.js',
-    path: outputPath
+    path: outputPath,
+    libraryTarget: 'commonjs2'
   },
   module: {
     loaders: [

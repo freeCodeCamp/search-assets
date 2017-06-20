@@ -1,8 +1,8 @@
 {
   "name": "react-freecodecamp-search",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "A React component that utilises our Elasticsearch search engine",
-  "repository":{
+  "repository": {
     "type": "git",
     "url": "https://github.com/Bouncey/react-freecodecamp-search.git"
   },
