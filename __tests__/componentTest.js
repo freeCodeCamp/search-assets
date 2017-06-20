@@ -2,7 +2,7 @@ import React from 'react';
 import { render } from 'enzyme';
 import {expect} from 'chai';
 
-import FCCSearchBar from '../src';
+import FCCSearchBar from '../dist';
 
 describe('<FCCSearchBar />', () => {
 
