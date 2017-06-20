@@ -23,9 +23,12 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|dist)/,
         loaders: ['babel-loader']
       }
     ]
+  },
+  externals: {
+    react: 'commonjs react'
   }
 };
