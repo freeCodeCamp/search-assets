@@ -9,13 +9,13 @@ Checkout the issues to get us there
 `npm install react-freecodecamp-search -S`
 
 ```js
-import fCCSearchBar from 'react-freecodecamp-search';
+import FCCSearchBar from 'react-freecodecamp-search';
 
 // in your component
 
 render() {
   return (
-    <fccSearchBar />
+    <FCCSearchBar />
   );
 }
 ```

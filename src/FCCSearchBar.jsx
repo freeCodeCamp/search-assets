@@ -2,15 +2,14 @@ import React from 'react';
 import axios from 'axios';
 
 import Results from './components/Results.jsx';
-import SearchBar from './components/SearchBar.jsx';
-import SearchButton from './components/SearchButton.jsx';
+import Input from './components/Input.jsx';
 
 import socket from './websocket';
 import * as styles from './styles';
 
 const { wrapper, appWrap } = styles;
 
-export default class fCCSearchBar extends React.PureComponent {
+class FCCSearchBar extends React.PureComponent {
   constructor() {
     super();
 
@@ -37,7 +36,6 @@ export default class fCCSearchBar extends React.PureComponent {
     const {
       searchTerm
     } = this.state;
-    console.info(socket);
     if (socket) {
       socket.emit(
         'search-for-this',
@@ -66,14 +64,16 @@ export default class fCCSearchBar extends React.PureComponent {
           onSubmit={ this.handleSubmit }
           style={ wrapper }
           >
-          <SearchBar
+          <Input
             searchTerm={ searchTerm }
             updateSearchTerm={ this.updateSearchTerm }
           />
-          <SearchButton />
+          <button type='submit'>Search</button>
         </form>
         <Results results={ results } />
       </div>
     );
   }
 }
+
+export default FCCSearchBar;
