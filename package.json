@@ -1,6 +1,6 @@
 {
   "name": "react-freecodecamp-search",
-  "version": "0.1.7",
+  "version": "0.2.0",
   "description": "A React component that utilises our Elasticsearch search engine",
   "repository": {
     "type": "git",
@@ -14,10 +14,9 @@
     "dev-build": "webpack --config ./devServer/webpack.config.js",
     "eslint-init": "eslint --init",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
-    "pretest": "npm run lint",
-    "prebuild": "npm test",
+    "pretest": "npm run build",
     "prepare": "npm run build",
-    "test": "jest"
+    "test": "npm run lint && jest"
   },
   "keywords": [],
   "author": "Stuart Taylor",

@@ -12,11 +12,11 @@ const { resultUl } = styles;
 
 function renderListItems(results) {
   return results.map((result, i) => {
-    const { title, body = '', description = '' } = result._source;
+    const { title, body = '', description = '', url } = result._source;
     const extract = body ? body.slice(0, 140) : description.slice(0, 140);
     return (
       <li key={ i }>
-        <h4>{ title }</h4>
+        <h4><a href={ url }>{ title }</a></h4>
         <p>{ stripTags(extract + '...') }</p>
       </li>
     );
