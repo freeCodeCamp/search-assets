@@ -1,6 +1,6 @@
 {
   "name": "react-freecodecamp-search",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A React component that utilises our Elasticsearch search engine",
   "repository": {
     "type": "git",
