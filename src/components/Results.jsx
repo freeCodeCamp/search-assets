@@ -8,14 +8,14 @@ const propTypes = {
   results: PropTypes.arrayOf(PropTypes.object)
 };
 
-const { resultUl } = styles;
+const { resultUl, resultLi } = styles;
 
 function renderListItems(results) {
   return results.map((result, i) => {
     const { title, body = '', description = '', url } = result._source;
     const extract = body ? body.slice(0, 140) : description.slice(0, 140);
     return (
-      <li key={ i }>
+      <li key={ i } style={ resultLi }>
         <h4><a href={ url }>{ title }</a></h4>
         <p>{ stripTags(extract + '...') }</p>
       </li>
