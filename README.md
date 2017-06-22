@@ -1,5 +1,7 @@
 # react-freecodecamp-search
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/Bouncey/react-freecodecamp-search.svg)](https://greenkeeper.io/)
+
 ## Pushing for v1.0
 
 Checkout the issues to get us there

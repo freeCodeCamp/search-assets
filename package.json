@@ -52,6 +52,6 @@
     "nodemon": "^1.11.0",
     "react-test-renderer": "^15.6.1",
     "socket.io": "^2.0.3",
-    "webpack": "^2.6.1"
+    "webpack": "^3.0.0"
   }
 }
