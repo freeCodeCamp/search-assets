@@ -1,13 +1,16 @@
 import React from 'react';
 import axios from 'axios';
 
+import Button from 'react-bootstrap/lib/Button';
+import Col from 'react-bootstrap/lib/Col';
+import Navbar from 'react-bootstrap/lib/Navbar';
+import FormGroup from 'react-bootstrap/lib/FormGroup';
+import FormControl from 'react-bootstrap/lib/FormControl';
+
+
 import Results from './components/Results.jsx';
-import Input from './components/Input.jsx';
 
-import socket from './websocket';
-import * as styles from './styles';
-
-const { wrapper, appWrap } = styles;
+// import * as styles from './styles';
 
 class FCCSearchBar extends React.PureComponent {
   constructor() {
@@ -27,7 +30,9 @@ class FCCSearchBar extends React.PureComponent {
     this.setState({ results: newResults });
   }
 
-  updateSearchTerm(value) {
+  updateSearchTerm(e) {
+    e.preventDefault();
+    const { value } = e.target;
     this.setState({ searchTerm: value });
   }
 
@@ -36,42 +41,38 @@ class FCCSearchBar extends React.PureComponent {
     const {
       searchTerm
     } = this.state;
-    if (socket) {
-      socket.emit(
-        'search-for-this',
-        JSON.stringify({ text: searchTerm }),
-        (response) => {
-          this.updateResults(response);
-        }
-      );
-    } else {
-      axios.get('http://freecodecamp.duckdns.org/search?q=' + searchTerm)
-        .then(response => {
-          this.updateResults(response.data);
-        })
-        .catch(err => {
-          console.error(err);
-        });
-    }
+    axios.get(`http://freecodecamp.duckdns.org/search?q=${searchTerm}`)
+      .then(response => {
+        this.updateResults(response.data);
+      })
+      .catch(err => {
+        console.error(err);
+      });
   }
 
   render() {
     const { searchTerm, results } = this.state;
     return (
-      <div style={ appWrap } { ...this.props }>
-        <form
-          className='fcc-search-form'
-          onSubmit={ this.handleSubmit }
-          style={ wrapper }
-          >
-          <Input
-            searchTerm={ searchTerm }
-            updateSearchTerm={ this.updateSearchTerm }
-          />
-          <button type='submit'>Search</button>
+      <Col
+        lg={ 12 }
+        md={ 12 }
+        xs={ 12 }
+        { ...this.props }
+        >
+        <form onSubmit={ this.handleSubmit }>
+        <Navbar.Form>
+          <FormGroup>
+            <FormControl
+              onChange={ this.updateSearchTerm }
+              type='text'
+              value={ searchTerm }
+            />
+            <Button type='submit'>Search</Button>
+          </FormGroup>
+        </Navbar.Form>
         </form>
         <Results results={ results } />
-      </div>
+      </Col>
     );
   }
 }
