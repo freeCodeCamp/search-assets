@@ -20,7 +20,7 @@
   },
   "keywords": [],
   "author": "Stuart Taylor",
-  "license": "BSD-3",
+  "license": "BSD-3-Clause",
   "dependencies": {
     "axios": "^0.16.2",
     "dotenv": "^4.0.0",
