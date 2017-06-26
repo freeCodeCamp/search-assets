@@ -9,15 +9,9 @@ export const wrapper = {
 };
 
 export const resultUl = {
-  marginTop: '0',
-  marginLeft: '0',
-  borderTop: 'none',
-  boxShadow: ' -1px 3px 19px 1px rgba(51, 51, 51, 0.25)',
-  listStyle: 'none',
-  position: 'absolute',
-  color: '#333',
-  background: '#fff',
-  width: '100%'
+  display: 'flex',
+  flexDirection: 'column',
+  padding: '5px'
 };
 
 export const resultLi = {

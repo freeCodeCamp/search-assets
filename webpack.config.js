@@ -28,7 +28,5 @@ module.exports = {
       }
     ]
   },
-  externals: {
-    react: 'commonjs react'
-  }
+  externals: /^react/i
 };
