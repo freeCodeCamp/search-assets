@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 import Button from 'react-bootstrap/lib/Button';
-import Col from 'react-bootstrap/lib/Col';
 import Navbar from 'react-bootstrap/lib/Navbar';
 import FormGroup from 'react-bootstrap/lib/FormGroup';
 import FormControl from 'react-bootstrap/lib/FormControl';
@@ -53,17 +52,13 @@ class FCCSearchBar extends React.PureComponent {
   render() {
     const { searchTerm, results } = this.state;
     return (
-      <Col
-        lg={ 12 }
-        md={ 12 }
-        xs={ 12 }
-        { ...this.props }
-        >
+      <div { ...this.props }>
         <form onSubmit={ this.handleSubmit }>
         <Navbar.Form>
-          <FormGroup>
+          <FormGroup style={{ display: 'flex' }}>
             <FormControl
               onChange={ this.updateSearchTerm }
+              style={{ width: '100%' }}
               type='text'
               value={ searchTerm }
             />
@@ -72,7 +67,7 @@ class FCCSearchBar extends React.PureComponent {
         </Navbar.Form>
         </form>
         <Results results={ results } />
-      </Col>
+      </div>
     );
   }
 }
