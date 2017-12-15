@@ -8,7 +8,9 @@ ReactDOM.render(
     <Row>
       <Col md={3} xs={12} />
       <Col md={7} xs={12}>
-        <FCCSearchBar />
+        <FCCSearchBar handleResults={res => {
+          console.log('hadleResults prop', res);
+        }}/>
       </Col>
       <Col md={2} xs={0} />
     </Row>

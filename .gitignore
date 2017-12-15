@@ -3,5 +3,5 @@ devServer/build/public/*.js
 node_modules
 .env
 *.log
-
+webpack-stats.json
 !devServer/**/*.html

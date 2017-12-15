@@ -1,4 +1,3 @@
-require('dotenv').config();
 const path = require('path');
 
 const { NODE_ENV } = process.env;
@@ -21,8 +20,12 @@ module.exports = {
     loaders: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
+        exclude: /(node_modules|dist)/,
         loaders: ['babel-loader']
+      },
+      {
+        test: /\.css$/,
+        loader: 'style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
       }
     ]
   }
