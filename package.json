@@ -1,6 +1,6 @@
 {
   "name": "react-freecodecamp-search",
-  "version": "0.2.5",
+  "version": "1.0.0",
   "description": "A React component that utilises our Elasticsearch search engine",
   "repository": {
     "type": "git",
@@ -10,23 +10,34 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "NODE_ENV=production webpack",
-    "dev": "NODE_ENV=development npm run dev-build && nodemon devServer/server.js",
+    "dev": "NODE_ENV=development webpack-dev-server --config ./devServer/webpack.config.js --content-base devServer/build/public --inline --hot --port 8000",
     "dev-build": "webpack --config ./devServer/webpack.config.js",
     "eslint-init": "eslint --init",
+    "format": "prettier --single-quote es5 --write '{src,__tests__}/**/*.js'",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
     "pretest": "npm run build",
     "prepare": "npm run build",
-    "test": "npm run lint && jest"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "keywords": [],
-  "author": "Stuart Taylor",
+  "author": "freeCodeCamp",
   "license": "BSD-3-Clause",
+  "jest": {
+    "moduleNameMapper": {
+      "^.+\\.(css|less)$": "<rootDir>/__mocks__/cssStub.js"
+    }
+  },
   "dependencies": {
     "axios": "^0.16.2",
     "dotenv": "^4.0.0",
+    "prettier": "^1.9.2",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "react-dom": "^15.6.1"
+    "react-bootstrap-typeahead": "^2.0.0-alpha.3",
+    "react-dom": "^15.6.1",
+    "react-fontawesome": "^1.6.1",
+    "rxjs": "^5.5.5"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -40,17 +51,24 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "chai": "^4.0.2",
+    "css-loader": "^0.28.5",
     "enzyme": "^2.8.2",
     "eslint": "^4.0.0",
+    "eslint-config-essentials": "^1.1.1",
     "eslint-plugin-import": "^2.3.0",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^7.1.0",
     "express": "^4.15.3",
     "jest": "^20.0.4",
     "nodemon": "^1.11.0",
+    "proxyquire": "^1.8.0",
     "react-bootstrap": "^0.31.0",
     "react-test-renderer": "^15.6.1",
+    "sinon": "^4.1.3",
+    "sinon-chai": "^2.14.0",
     "socket.io": "^2.0.3",
-    "webpack": "^3.0.0"
+    "style-loader": "^0.18.2",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.9.7"
   }
 }

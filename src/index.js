@@ -1,3 +1,3 @@
-import FCCSearchBar from './FCCSearchBar.jsx';
+import FCCSearchBar from './FCCSearchBar';
 
 export default FCCSearchBar;
