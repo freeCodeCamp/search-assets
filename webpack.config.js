@@ -32,5 +32,5 @@ module.exports = {
       }
     ]
   },
-  externals: /^react/i
+  externals: /(^react|prop-types)/i
 };

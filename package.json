@@ -15,6 +15,7 @@
     "eslint-init": "eslint --init",
     "format": "prettier --single-quote es5 --write '{src,__tests__}/**/*.js'",
     "lint": "eslint --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
+    "inspect": "NODE_ENV=production webpack --profile --json > webpack-stats.json",
     "pretest": "npm run build",
     "prepare": "npm run build",
     "test": "jest",
@@ -29,15 +30,13 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.2",
-    "dotenv": "^4.0.0",
     "prettier": "^1.9.2",
     "prop-types": "^15.5.10",
     "react": "^15.6.1",
-    "react-bootstrap-typeahead": "^2.0.0-alpha.3",
     "react-dom": "^15.6.1",
     "react-fontawesome": "^1.6.1",
-    "rxjs": "^5.5.5"
+    "rxjs": "^5.5.5",
+    "xhr": "^2.4.1"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -64,9 +63,6 @@
     "proxyquire": "^1.8.0",
     "react-bootstrap": "^0.31.0",
     "react-test-renderer": "^15.6.1",
-    "sinon": "^4.1.3",
-    "sinon-chai": "^2.14.0",
-    "socket.io": "^2.0.3",
     "style-loader": "^0.18.2",
     "webpack": "^3.0.0",
     "webpack-dev-server": "^2.9.7"

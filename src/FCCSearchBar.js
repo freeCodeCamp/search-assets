@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Subject } from 'rxjs/Subject';
 import { merge } from 'rxjs/observable/merge';
 import { debounceTime } from 'rxjs/operators/debounceTime';
 import { throttleTime } from 'rxjs/operators/throttleTime';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
-import axios from 'axios';
+import xhr from 'xhr';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
 
@@ -12,6 +13,11 @@ import { normaliser } from './resultNormaliser';
 import './fcc-search-bar.css';
 
 const requestUrl = 'https://search.freecodecamp.org';
+
+const propTypes = {
+  handleResults: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
+};
 
 class FCCSearchBar extends React.PureComponent {
   constructor(props) {
@@ -45,32 +51,49 @@ class FCCSearchBar extends React.PureComponent {
   }
 
   getSearchResults() {
+    const self = this;
     const { searchTerm } = this.state;
-    axios
-      .get(`${requestUrl}/search?q=${searchTerm}`)
-      .then(response => {
-        return response.data;
-      })
-      .then(data => {
+    xhr(
+      {
+        method: 'get',
+        uri: `${requestUrl}/search?q=${searchTerm}`
+      },
+      function(err, resp, body) {
+        if (resp.statusCode !== 200) {
+          self.setState(
+            state => ({
+              ...state,
+              results: []
+            }),
+            () => self.handleResults()
+          );
+          console.error('Something went wrong whilst searching');
+          console.error(err);
+          return;
+        } else if (err) {
+          self.setState(
+            state => ({
+              ...state,
+              results: []
+            }),
+            () => self.handleResults()
+          );
+          console.error('Something went wrong');
+          console.error(err);
+          return;
+        }
+        const data = JSON.parse(body);
         const results = normaliser(data);
-        this.setState(
+        self.setState(
           state => ({
             ...state,
             results
           }),
-          () => this.handleResults()
+          () => self.handleResults()
         );
-      })
-      .catch(err => {
-        console.error(err);
-        this.setState(
-          state => ({
-            ...state,
-            results: []
-          }),
-          () => this.handleResults()
-        );
-      });
+        return;
+      }
+    );
   }
 
   handleBlur() {
@@ -114,7 +137,7 @@ class FCCSearchBar extends React.PureComponent {
             id="fcc_searchInput"
             onBlur={this.handleBlur}
             onChange={this.handleChange}
-            placeholder={placeholder}
+            placeholder={typeof placeholder === 'string' ? placeholder : ''}
             type="text"
             value={searchTerm}
           />
@@ -133,5 +156,6 @@ FCCSearchBar.defaultProps = {
   placeholder: 'What would you like to know?'
 };
 FCCSearchBar.displayName = 'FCCSearchBar';
+FCCSearchBar.propTypes = propTypes;
 
 export default FCCSearchBar;
