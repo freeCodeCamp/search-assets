@@ -9,8 +9,9 @@ ReactDOM.render(
       <Col md={3} xs={12} />
       <Col md={7} xs={12}>
         <FCCSearchBar
+          dropdown={true}
           handleResults={res => {
-            console.log('hadleResults prop', res);
+            console.log('handleResults prop', res);
           }}
           handleSearchTerm={value => {
             console.log('handleSearchTerm', value);

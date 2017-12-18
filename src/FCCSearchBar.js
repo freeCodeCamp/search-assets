@@ -7,25 +7,37 @@ import { throttleTime } from 'rxjs/operators/throttleTime';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import {search } from './search';
+import SearchResults from './components/SearchResults';
+import { search } from './search';
+import { mainCSS, dropdownCSS } from './css';
 
 const propTypes = {
-  handleResults: PropTypes.func.isRequired,
+  dropdown: PropTypes.bool,
+  handleResults: PropTypes.func,
   handleSearchingState: PropTypes.func,
   handleSearchTerm: PropTypes.func,
   placeholder: PropTypes.string
+};
+
+const defaultProps = {
+  dropdown: false,
+  handleResults: () => {},
+  handleSearchTerm: () => {},
+  placeholder: 'What would you like to know?',
+  handleSearchingState: () => {}
 };
 
 class FCCSearchBar extends React.PureComponent {
   constructor(props) {
     super(props);
     let previousSearchTerm = '';
+    this.getSearchResults = this.getSearchResults.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.getSearchResults = this.getSearchResults.bind(this);
-    this.handleResults = this.handleResults.bind(this);
     this.handleBlur = this.handleBlur.bind(this);
-    this.handleSearchingState = this.handleSearchingState.bind(this);
+    this.provideFeedback = this.provideFeedback.bind(this);
+    this.reset = this.reset.bind(this);
+    this.setState = this.setState.bind(this);
     this.state = {
       isSearching: false,
       results: [],
@@ -37,42 +49,42 @@ class FCCSearchBar extends React.PureComponent {
       this.input.pipe(throttleTime(500), distinctUntilChanged())
     ).subscribe(() => {
       const { searchTerm } = this.state;
-      if (
-        searchTerm.length > 2 &&
-        searchTerm.length !== previousSearchTerm.length
-      ) {
+      if (searchTerm.length > 2 && searchTerm !== previousSearchTerm) {
         previousSearchTerm = searchTerm.slice(0);
         this.getSearchResults();
       }
       previousSearchTerm = searchTerm.slice(0);
-      this.props.handleSearchTerm(searchTerm);
       return;
     });
   }
 
-  getSearchResults() {
-    const { searchTerm, isSearching } = this.state;
-    this.setState(state => ({
-      ...state,
-      isSearching: true
-    }),
-    () => {
-      this.handleSearchingState(isSearching);
-      search({
-      update: this.setState.bind(this),
-      searchTerm,
-      handleResults: this.handleResults,
-      handleSearchingState: this.handleSearchingState
-    })}
-  );
+  componentDidUpdate() {
+    this.provideFeedback();
+  }
 
+  getSearchResults() {
+    const { searchTerm } = this.state;
+    this.setState(
+      state => ({
+        ...state,
+        isSearching: true
+      }),
+      () => {
+        search({
+          update: this.setState,
+          searchTerm
+        });
+      }
+    );
   }
 
   handleBlur() {
-    this.setState(state => ({
-      ...state,
-      searchTerm: ''
-    }));
+    const { dropdown } = this.props;
+    if (dropdown) {
+      // Allow the dropdown to handle a click before we reset
+      return setTimeout(() => this.reset(), 200);
+    }
+    return this.reset();
   }
 
   handleChange(e) {
@@ -86,44 +98,40 @@ class FCCSearchBar extends React.PureComponent {
     );
   }
 
-  handleResults() {
-    const { isSearching, results } = this.state;
-    this.props.handleSearchingState(isSearching)
-    this.props.handleResults(results);
-  }
-
-  handleSearchingState() {
-    const {isSearching} = this.state;
-    this.props.handleSearchingState(isSearching);
-  }
-
   handleSubmit(e) {
     e.preventDefault();
+    this.input.next();
+  }
+
+  provideFeedback() {
+    const {
+      handleResults,
+      handleSearchingState,
+      handleSearchTerm
+    } = this.props;
+    const { results, isSearching, searchTerm } = this.state;
+    handleResults(results);
+    handleSearchingState(isSearching);
+    handleSearchTerm(searchTerm);
+    return;
+  }
+
+  reset() {
+    return this.setState(state => ({
+      ...state,
+      results: [],
+      searchTerm: ''
+    }));
   }
 
   render() {
-    const { placeholder } = this.props;
-    const { searchTerm } = this.state;
+    const { dropdown, placeholder } = this.props;
+    const { searchTerm, results } = this.state;
     return (
       <div className="fcc_searchBar">
         <style>
-          {`
-          .fcc_input {
-            min-width: 100%;
-            width: 100%;
-            height: 30px;
-          }
-
-          .fcc_searchBar {
-            width: 100%;
-          }
-
-          @media (min-width: 992px) {
-            .fcc_searchBar {
-              width: 75%;
-            }
-          }
-          `}
+          {mainCSS}
+          {dropdownCSS}
         </style>
         <form onSubmit={this.handleSubmit} className="fcc_searchForm">
           <ControlLabel htmlFor="fcc_searchInput" srOnly={true}>
@@ -139,21 +147,18 @@ class FCCSearchBar extends React.PureComponent {
             value={searchTerm}
           />
         </form>
+        {dropdown && results.length ? (
+          <SearchResults
+            reset={this.reset}
+            results={results}
+          />
+        ) : null}
       </div>
     );
   }
 }
 
-FCCSearchBar.defaultProps = {
-  handleResults: () => {
-    console.warn(
-      'Expected a "handleResults" prop in FCCSearchBar, instead we are using a default fallback'
-    );
-  },
-  handleSearchTerm: () => {},
-  placeholder: 'What would you like to know?',
-  handleSearchingState: () => {}
-};
+FCCSearchBar.defaultProps = defaultProps;
 FCCSearchBar.displayName = 'FCCSearchBar';
 FCCSearchBar.propTypes = propTypes;
 
