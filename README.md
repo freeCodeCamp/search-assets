@@ -14,6 +14,7 @@ import FCCSearchBar from 'react-freecodecamp-search';
 // in your component
 return (
   <FCCSearchBar
+    dropdown={false} // default
     handleResults={yourResultHandler} // arrayOf(Object)
     handleSearchTerm={yourOptionalSearchTermHandler} // input.value
     handleSearchingState={yourHandler} // isSearching ? true : false
