@@ -1,0 +1,11 @@
+node_modules
+init/challenges/**/.svn
+init/challenges/seed/challenges
+init/guides/svn
+.svn
+.vscode
+.env
+lib/
+!lib/views/noRoute.pug
+svn/
+!init/challenges/seed/getChallenges.js
