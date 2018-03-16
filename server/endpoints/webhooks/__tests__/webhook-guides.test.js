@@ -15,7 +15,7 @@ const {
 
 describe('POST /guides', () => {
   let callInitStub, app, route, request;
-  beforeEach(function () {
+  beforeEach(function() {
     callInitStub = sinon.stub();
     app = express();
     app.use(bodyParser.urlencoded({ extended: false }));
@@ -47,53 +47,53 @@ describe('POST /guides', () => {
 
   it('should not call update when PR is closed and not merged', done => {
     request
-    .post('/guides')
-    .send(masterNotMergedPR)
-    .expect(200)
-    .expect(() => {
-      if (callInitStub.called) {
-        throw new Error('guide update called!');
-      }
-    })
-    .end(done);
+      .post('/guides')
+      .send(masterNotMergedPR)
+      .expect(200)
+      .expect(() => {
+        if (callInitStub.called) {
+          throw new Error('guide update called!');
+        }
+      })
+      .end(done);
   });
 
   it('should not call update when PR is merged on a different branch', done => {
     request
-    .post('/guides')
-    .send(notMasterMergedPR)
-    .expect(200)
-    .expect(() => {
-      if (callInitStub.called) {
-        throw new Error('guide update called!');
-      }
-    })
-    .end(done);
+      .post('/guides')
+      .send(notMasterMergedPR)
+      .expect(200)
+      .expect(() => {
+        if (callInitStub.called) {
+          throw new Error('guide update called!');
+        }
+      })
+      .end(done);
   });
 
   it('should call update when PR is merged on master', done => {
     request
-    .post('/guides')
-    .send(masterMergedPR)
-    .expect(200)
-    .expect(() => {
-      if (!callInitStub.called) {
-        throw new Error('guide update wasn\'t called!');
-      }
-    })
-    .end(done);
+      .post('/guides')
+      .send(masterMergedPR)
+      .expect(200)
+      .expect(() => {
+        if (!callInitStub.called) {
+          throw new Error("guide update wasn't called!");
+        }
+      })
+      .end(done);
   });
 
   it('should call update when PR is merged on master, FULL SCALE', done => {
     request
-    .post('/guides')
-    .send(fullScale)
-    .expect(200)
-    .expect(() => {
-      if (!callInitStub.called) {
-        throw new Error('guide update wasn\'t called!');
-      }
-    })
-    .end(done);
+      .post('/guides')
+      .send(fullScale)
+      .expect(200)
+      .expect(() => {
+        if (!callInitStub.called) {
+          throw new Error("guide update wasn't called!");
+        }
+      })
+      .end(done);
   });
 });

@@ -1,47 +1,52 @@
 const path = require('path');
-const Rx = require('rx');
+const Rx = require('rxjs');
 const svn = require('node-svn-ultimate');
 const fse = require('fs-extra');
-const hash = require('string-hash');
-const { log } = require('../../utils');
-const { bulkInsert, bulkUpsert } = require('../../elastic');
+const { logger, chunkDocument, readDir } = require('../../utils');
 const { titleify } = require('./utils');
-const logger = log('guides');
+const { client } = require('../../algolia');
+
+const log = logger('guides');
 const { Observable } = Rx;
 
+const index = client.initIndex('init:guides');
 
-const isAFileRE = /(\.md|\.jsx?|\.html?)$/;
-const shouldBeIgnoredRE = /^(\_|\.)/;
-const excludedDirs = [
-  'search'
-];
+index.setSettings(
+  {
+    searchableAttributes: ['title', 'content'],
+    distinct: true,
+    attributeForDistinct: 'objectID'
+  },
+  (err, response) => {
+    if (err) {
+      log(err.message, 'red');
+      log(err.debugData);
+      throw new Error(err);
+    }
+    log('setSettings\n' + JSON.stringify(response, null, 2));
+  }
+);
 
 const articlesDir = path.resolve(__dirname, './svn');
-
 let articles = [];
-
-function readDir(dir) {
-  return fse.readdirSync(dir)
-  .filter(item => !isAFileRE.test(item))
-  .filter(dir => !excludedDirs.includes(dir))
-  .filter(file => !shouldBeIgnoredRE.test(file));
-}
 
 function buildAndInsert(dirLevel) {
   const filePath = `${dirLevel}/index.md`;
-  fse.open(filePath, 'r', (err) => {
+  fse.open(filePath, 'r', err => {
     if (err) {
       if (err.code === 'ENOENT') {
-        logger(
+        log(
           `index.md does not exist in ${filePath.replace(/index\.md$/, '')}`,
           'yellow'
-          );
+        );
       }
-      logger(err.message, 'red');
+      log(err.message, 'red');
       return;
     }
     fse.readFile(filePath, 'utf-8', (err, content) => {
-      if (err) { logger(err.message, 'red'); }
+      if (err) {
+        log(err.message, 'red');
+      }
       const title = dirLevel
         .slice(0)
         .split('/')
@@ -55,38 +60,44 @@ function buildAndInsert(dirLevel) {
         .join('/')
         .toLowerCase();
       const article = {
-        body: content,
+        content,
         title: pageTitle,
         url: `/${url}`,
-        id: hash(url)
+        objectID: url.replace('/', '-')
       };
-      articles = [ ...articles, article];
+      articles = [
+        ...articles,
+        ...chunkDocument(article, ['title', 'url', 'objectID'], 'content')
+      ];
 
       if (articles.length >= 150) {
-        bulkInsert({ index: 'guides', type: 'article', documents: articles.slice(0) });
+        index.addObjects(articles, err => {
+          if (err) {
+            throw new Error(err);
+          }
+          log(`${articles.length} articles inserted`);
+        });
         articles = [];
       }
     });
-    return null;
   });
 }
 
 function parseArticles(dirLevel) {
-  return Observable.from(readDir(dirLevel))
-    .flatMap(dir => {
-      const dirPath = `${dirLevel}/${dir}`;
-      const subDirs = readDir(dirPath);
-      if (!subDirs) {
-        buildAndInsert(dirPath);
-        return Observable.of(null);
-      }
+  return Observable.from(readDir(dirLevel)).flatMap(dir => {
+    const dirPath = `${dirLevel}/${dir}`;
+    const subDirs = readDir(dirPath);
+    if (!subDirs) {
       buildAndInsert(dirPath);
-      return parseArticles(dirPath);
-    });
+      return Observable.of(null);
+    }
+    buildAndInsert(dirPath);
+    return parseArticles(dirPath);
+  });
 }
 
 function getGuideArticleData() {
-  fse.remove(articlesDir, (err) => {
+  fse.remove(articlesDir, err => {
     if (err) {
       console.error(err.message);
       throw new Error(err.stack);
@@ -94,31 +105,36 @@ function getGuideArticleData() {
     svn.commands.checkout(
       'https://github.com/freecodecamp/guides/trunk/src/pages',
       articlesDir,
-      (err) => {
+      err => {
         if (err) {
-          logger(err.message, 'red');
+          log(err.message, 'red');
           throw new Error(err.stack);
         }
-        logger('got guides');
-        parseArticles(articlesDir)
-          .subscribe(
-            (dir)=> {
-              if (dir) {
-                parseArticles(dir);
-              }
-            },
-            err => {
-              logger(err.message, 'red');
-              throw new Error(err);
-            },
-            () => {
-              if (articles.length > 0) {
-                bulkInsert({ index: 'guides', type: 'article', documents: articles.slice(0) });
-              }
-              logger('COMPLETE');
+        log('got guides');
+        parseArticles(articlesDir).subscribe(
+          dir => {
+            if (dir) {
+              parseArticles(dir);
             }
-          );
-      });
+          },
+          err => {
+            log(err.message, 'red');
+            throw new Error(err);
+          },
+          () => {
+            if (articles.length > 0) {
+              index.addObjects(articles, err => {
+                if (err) {
+                  throw new Error(err);
+                }
+                log(`${articles.length} articles inserted`);
+              });
+            }
+            log('COMPLETE');
+          }
+        );
+      }
+    );
   });
 }
 

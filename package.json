@@ -1,13 +1,13 @@
 {
-  "name": "freecodecamp-elasticsearch",
+  "name": "search-mono-repo",
   "version": "0.0.1",
-  "description": "A search engine for all things freeCodeCamp",
-  "main": "index.js",
+  "description": "A repository to hold all of our search assets",
+  "main": "N/A",
   "scripts": {
     "dev": "nodemon server",
     "init": "node init",
-    "get-test": "babel getTest.js",
     "build:server": "npx babel server --out-dir lib --ignore spec.js,test.js",
+    "format": "prettier --single-quote es5 --write './**/*.js'",
     "test-server": "mocha --require babel-polyfill --compilers js:babel-register -R spec ./server/**/*test.js",
     "test-server:watch": "mocha --require babel-polyfill --compilers js:babel-register -R spec ./server/**/*test.js --watch",
     "test": "npm run test-server",
@@ -15,49 +15,51 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Bouncey/freeCodeCamp-Elasticsearch.git"
+    "url": "git+https://github.com/freeCodeCamp/search-mono-repo.git"
   },
-  "author": "Stuart Taylor",
-  "license": "ISC",
+  "keywords": [
+    "search",
+    "algolia",
+    "freeCodecamp"
+  ],
+  "author": "freeCodeCamp",
+  "license": "BSD-3-Clause",
   "bugs": {
-    "url": "https://github.com/Bouncey/freeCodeCamp-Elasticsearch/issues"
+    "url": "https://github.com/freeCodeCamp/search-mono-repo/issues"
   },
-  "homepage": "https://github.com/Bouncey/freeCodeCamp-Elasticsearch#readme",
+  "homepage": "https://github.com/freeCodeCamp/search-mono-repo#readme",
   "dependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.6.1",
-    "body-parser": "^1.17.2",
-    "chai": "^4.1.2",
-    "chalk": "^1.1.3",
+    "algoliasearch": "^3.25.1",
+    "body-parser": "^1.18.2",
+    "chalk": "^2.3.2",
     "cors": "^2.8.4",
     "date-fns": "^1.29.0",
-    "dotenv": "^4.0.0",
-    "elasticsearch": "^13.0.1",
-    "express": "^4.15.3",
-    "gray-matter": "^3.1.1",
-    "helmet": "^3.6.1",
-    "mocha": "^3.5.3",
-    "morgan": "^1.8.2",
-    "node-svn-ultimate": "^1.0.4",
-    "nodemon": "^1.12.1",
-    "pmx": "^1.2.0",
-    "promisify-event": "^1.0.0",
-    "proxyquire": "^1.8.0",
-    "pug": "^2.0.0-rc.2",
-    "request": "^2.81.0",
-    "rss-parser": "^2.9.0",
-    "rx": "^4.1.0",
-    "secure-compare": "^3.0.1",
-    "sinon": "^4.0.0",
-    "string-hash": "^1.1.3",
-    "supertest": "^3.0.0"
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3",
+    "fs-extra": "^5.0.0",
+    "googleapis": "^27.0.0",
+    "helmet": "^3.12.0",
+    "lodash": "^4.17.5",
+    "node-svn-ultimate": "^1.1.0",
+    "pmx": "^1.6.4",
+    "rxjs": "^5.5.7",
+    "secure-compare": "^3.0.1"
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
-    "babel-plugin-syntax-async-functions": "^6.13.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^8.2.2",
     "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
-    "eslint": "^3.19.0"
+    "eslint": "^4.18.2",
+    "eslint-config-freecodecamp": "^1.1.1",
+    "eslint-plugin-import": "^2.9.0",
+    "eslint-plugin-prefer-object-spread": "^1.2.1",
+    "eslint-plugin-react": "^7.7.0",
+    "mocha": "^5.0.4",
+    "nodemon": "^1.17.2",
+    "prettier": "^1.11.1",
+    "proxyquire": "^2.0.0",
+    "sinon": "^4.4.6",
+    "supertest": "^3.0.0"
   }
 }

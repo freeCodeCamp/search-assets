@@ -7,11 +7,11 @@ import { throttleTime } from 'rxjs/operators/throttleTime';
 import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
 import ControlLabel from 'react-bootstrap/lib/ControlLabel';
 import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup'
+import FormGroup from 'react-bootstrap/lib/FormGroup';
 import SearchResults from './components/SearchResults';
 import InputGroup from 'react-bootstrap/lib/InputGroup';
 import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button'
+import Button from 'react-bootstrap/lib/Button';
 import { search } from './search';
 import { mainCSS, dropdownCSS } from './css';
 
@@ -131,26 +131,27 @@ class FCCSearchBar extends React.PureComponent {
       <div className="fcc_searchBar">
         <style dangerouslySetInnerHTML={{ __html: mainCSS + dropdownCSS }} />
         <form onSubmit={this.handleSubmit} className="fcc_searchForm">
-
-            <ControlLabel htmlFor="fcc_searchInput" srOnly={true}>
-              Search
-            </ControlLabel>
-            <InputGroup>
-              <InputGroup.Addon><i className="fa fa-search" aria-hidden="true"/></InputGroup.Addon>
-              <FormControl
-                autoComplete="off"
-                className="fcc_input"
-                id="fcc_searchInput"
-                onBlur={this.handleBlur}
-                onChange={this.handleChange}
-                placeholder={typeof placeholder === 'string' ? placeholder : ''}
-                type="text"
-                value={searchTerm}
-              />
-              <InputGroup.Button>
-        <Button bsStyle='primary'>Search</Button>
-      </InputGroup.Button>
-            </InputGroup>
+          <ControlLabel htmlFor="fcc_searchInput" srOnly={true}>
+            Search
+          </ControlLabel>
+          <InputGroup>
+            <InputGroup.Addon>
+              <i className="fa fa-search" aria-hidden="true" />
+            </InputGroup.Addon>
+            <FormControl
+              autoComplete="off"
+              className="fcc_input"
+              id="fcc_searchInput"
+              onBlur={this.handleBlur}
+              onChange={this.handleChange}
+              placeholder={typeof placeholder === 'string' ? placeholder : ''}
+              type="text"
+              value={searchTerm}
+            />
+            <InputGroup.Button>
+              <Button bsStyle="primary">Search</Button>
+            </InputGroup.Button>
+          </InputGroup>
         </form>
         {dropdown && results.length ? (
           <SearchResults reset={this.reset} results={results} />
