@@ -153,7 +153,7 @@ const stopWords = [
   'in',
   'into',
   'it',
-  'it\'s',
+  "it's",
   'its',
   'no',
   'nor',
