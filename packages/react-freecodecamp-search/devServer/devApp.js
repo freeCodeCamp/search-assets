@@ -26,4 +26,3 @@ ReactDOM.render(
   </Grid>,
   document.getElementById('mount-app')
 );
-

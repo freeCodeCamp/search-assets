@@ -1,13 +1,10 @@
-const { Observable } = require('rx');
+const { Observable } = require('rxjs');
 const { findTheThings } = require('../../../elastic');
 
-
 module.exports = function searchHandler(app) {
-
   app.get('/', (req, res) => {
     const { q: query } = req.query;
-    Observable.fromPromise(findTheThings(query))
-    .subscribe(
+    Observable.fromPromise(findTheThings(query)).subscribe(
       hits => {
         res.json(hits).end();
       },
