@@ -1,21 +1,9 @@
-# freeCodeCamp Elasticsearch
+![freeCodeCamp Social Banner](https://s3.amazonaws.com/freecodecamp/wide-social-banner.png)
 
-[![Known Vulnerabilities](https://snyk.io/test/github/bouncey/freecodecamp-elasticsearch/badge.svg)](https://snyk.io/test/github/bouncey/freecodecamp-elasticsearch)
+# freeCodeCamp Search
 
-This is the development repo for a freeCodeCamp search engine
+This is the development repo for all things freeCodeCamp search
 
-### Requirements
+## Under Construction
 
-Follow the steps [here](https://www.elastic.co/start) to install Elasticsearch, Kibana and X-pack
-
-Ensure you have `svn` installed on your server, this is used to lift `/seed/challenges` from `freeCodeCamp/freeCodeCamp`
-
-### Usage
-
-Make a copy of `sample.env` to `.env`
-
-You will need an access token for the YouTube api in your `.env` file.
-
-Once your elasticsearch instance is running, use `node init` to seed your cluster
-
-You can query the cluster using the Dev Tools in Kibana
+We are currently in the process of refactoring how we do things around here. Check back shortly to see how you can contribute.
