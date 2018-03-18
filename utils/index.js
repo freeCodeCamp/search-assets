@@ -16,7 +16,7 @@ const isAFileRE = /(\.md|\.jsx?|\.html?)$/;
 const isJSRE = /\.jsx?$/;
 const shouldBeIgnoredRE = /^(\_|\.)/;
 const excludedDirs = ['search'];
-const guideSvnRE = !/guides\/svn$/;
+const guideSvnRE = /guides\/svn$/;
 
 exports.isAFileRE = isAFileRE;
 exports.isJSRE = isJSRE;
@@ -31,7 +31,7 @@ exports.listDirectory = function listDirectory(start) {
     }
     allDirs = [...allDirs, dirPath];
   });
-  return allDirs.filter(name => guideSvnRE.test(name));
+  return allDirs.filter(name => !guideSvnRE.test(name));
 };
 
 function readDir(dir = __dirname, returnFiles = false) {
