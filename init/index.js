@@ -22,11 +22,14 @@ function init() {
     Observable.timer(0, 2000),
     Observable.from(dataSources),
     (a, b) => b
-  ).subscribe(fn => {
-    fn();
-  },
-  err => { throw new Error(err); }
-);
+  ).subscribe(
+    fn => {
+      fn();
+    },
+    err => {
+      throw new Error(err);
+    }
+  );
 }
 
 init();

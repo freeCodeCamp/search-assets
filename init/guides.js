@@ -1,5 +1,7 @@
+const { Observable } = require('rxjs');
+const _ = require('lodash');
 const { client } = require('../algolia');
-const getGuideArticleData = require('../data-sources/guides');
+const { getGuideArticleData } = require('../data-sources/guides');
 const { logger } = require('../utils');
 
 const log = logger('init:guides');
@@ -23,17 +25,19 @@ index.setSettings(
 );
 
 exports.insertGuides = function insertGuides() {
-  return getGuideArticleData().subscribe(
-    articles => {
-      index.addObjects(articles, err => {
-        if (err) {
-          throw new Error(err);
-        }
-      });
-    },
-    err => {
-      throw new Error(err);
-    },
-    () => log('complete', 'blue')
-  );
+  return getGuideArticleData()
+    .flatMap(articles => Observable.from(_.chunk(articles, 100)))
+    .subscribe(
+      articles => {
+        index.addObjects(articles, err => {
+          if (err) {
+            throw new Error(err);
+          }
+        });
+      },
+      err => {
+        throw new Error(err);
+      },
+      () => log('complete', 'blue')
+    );
 };

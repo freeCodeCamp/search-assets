@@ -2,7 +2,6 @@ const path = require('path');
 const Rx = require('rxjs');
 const svn = require('node-svn-ultimate');
 const fse = require('fs-extra');
-const _ = require('lodash');
 const { logger, chunkDocument, listDirectory } = require('../../utils');
 const { titleify } = require('./utils');
 
@@ -74,8 +73,7 @@ function getGuideArticleData() {
       )
     )
     .flatMap(() => articleStream(articlesDir))
-    .toArray()
-    .flatMap(articles => Observable.from(_.chunk(articles, 100)));
+    .toArray();
 }
 
-module.exports = getGuideArticleData;
+exports.getGuideArticleData = getGuideArticleData;
