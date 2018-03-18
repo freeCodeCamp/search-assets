@@ -1,4 +1,5 @@
 node_modules
+*.log
 data-sources/challenges/**/.svn
 data-sources/challenges/seed/challenges
 data-sources/guides/svn
