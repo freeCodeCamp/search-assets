@@ -81,7 +81,7 @@ exports.getYoutubeData = function getYoutubeData() {
             }
           } = video;
           return {
-            objectID: id,
+            id,
             videoId,
             title,
             description,
@@ -93,7 +93,7 @@ exports.getYoutubeData = function getYoutubeData() {
             ...chunked,
             ...chunkDocument(
               current,
-              ['objectID', 'videoId', 'title', 'thumbnail'],
+              ['id', 'videoId', 'title', 'thumbnail'],
               'description'
             )
           ],

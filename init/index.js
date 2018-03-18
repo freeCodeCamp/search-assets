@@ -1,7 +1,3 @@
-const path = require('path');
-
-const envPath = path.resolve(__dirname, '../.env');
-require('dotenv').config({ path: envPath });
 const { Observable } = require('rxjs');
 
 /*
@@ -14,7 +10,7 @@ const { Observable } = require('rxjs');
 // const { insertGuides } = require('./guides');
 
 const dataSources = [
-  // insertGuides
+  // insertGuides,
   // insertYoutube
   // insertChallenges
   // disable this until the roll out of news
@@ -28,7 +24,9 @@ function init() {
     (a, b) => b
   ).subscribe(fn => {
     fn();
-  });
+  },
+  err => { throw new Error(err); }
+);
 }
 
 init();

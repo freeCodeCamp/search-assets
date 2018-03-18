@@ -10,7 +10,7 @@ index.setSettings(
   {
     searchableAttributes: ['title', 'description', 'blockName'],
     distinct: true,
-    attributeForDistinct: 'objectID'
+    attributeForDistinct: 'id'
   },
   (err, response) => {
     if (err) {

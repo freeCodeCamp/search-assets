@@ -43,9 +43,9 @@ function buildArticle(dirLevel) {
     content,
     title: pageTitle,
     url: `/${url}`,
-    objectID: url.replace('/', '-')
+    id: url.replace('/', '-')
   };
-  return chunkDocument(article, ['title', 'url', 'objectID'], 'content');
+  return chunkDocument(article, ['title', 'url', 'id'], 'content');
 }
 
 function articleStream(dirLevel) {

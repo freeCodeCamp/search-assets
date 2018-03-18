@@ -27,7 +27,7 @@ function streamChallenges() {
 
         const formattedChallenge = {
           blockName: name,
-          objectID: id,
+          id,
           title,
           description: description ? description.join('').trim() : '',
           url: `https://freecodecamp.org/challenges/${block}/${dashedName}`
@@ -36,7 +36,7 @@ function streamChallenges() {
           ...acc,
           ...chunkDocument(
             formattedChallenge,
-            ['title', 'objectID', 'blockName', 'url'],
+            ['title', 'id', 'blockName', 'url'],
             'description'
           )
         ];
