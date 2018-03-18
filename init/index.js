@@ -1,19 +1,22 @@
 const path = require('path');
 
 const envPath = path.resolve(__dirname, '../.env');
-
 require('dotenv').config({ path: envPath });
-
 const { Observable } = require('rxjs');
+
+/*
+* The below has been commented out to aviod inadvertant ops usage with algolia
+*/
+
 // const { getStoryData } = require('./news');
-// const getYoutubeData = require('./youtube');
-// const getChallengeData = require('./challenges');
-// const getGuideArticleData = require('./guides');
+// const { insertYoutube } = require('./youtube');
+// const { insertChallenges } = require('./challenges');
+// const { insertGuides } = require('./guides');
 
 const dataSources = [
-  // getGuideArticleData
-  // getYoutubeData
-  // getChallengeData
+  // insertGuides
+  // insertYoutube
+  // insertChallenges
   // disable this until the roll out of news
   // getStoryData
 ];
