@@ -1,11 +1,10 @@
 node_modules
-init/challenges/**/.svn
-init/challenges/seed/challenges
-init/guides/svn
+data-sources/challenges/**/.svn
+data-sources/challenges/seed/challenges
+data-sources/guides/svn
 .svn
 .vscode
 .env
 lib/
-!lib/views/noRoute.pug
 svn/
-!init/challenges/seed/getChallenges.js
+!data-sources/challenges/seed/getChallenges.js
