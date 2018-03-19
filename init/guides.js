@@ -10,9 +10,10 @@ const index = client.initIndex('guides');
 
 index.setSettings(
   {
-    searchableAttributes: ['title', 'content'],
+    searchableAttributes: ['title', 'content', 'category'],
     distinct: true,
-    attributeForDistinct: 'id'
+    attributeForDistinct: 'id',
+    attributesForFaceting: ['category']
   },
   (err, response) => {
     if (err) {

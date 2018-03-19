@@ -6,7 +6,11 @@ const { Observable } = Rx;
 const { YOUTUBE_SECRET } = process.env;
 const youtube = google.youtube({ version: 'v3', auth: YOUTUBE_SECRET });
 
-function getPlaylistItems(playlistId, nextPage, currentItems = []) {
+function getPlaylistItems(
+  { playlistId, playlistTitle },
+  nextPage,
+  currentItems = []
+) {
   return Observable.fromPromise(
     new Promise((resolve, reject) => {
       youtube.playlistItems.list(
@@ -19,16 +23,16 @@ function getPlaylistItems(playlistId, nextPage, currentItems = []) {
           if (err) {
             return reject(err);
           }
-          return resolve(data.data);
+          return resolve({ ...data.data, playlistTitle });
         }
       );
     })
-  ).flatMap(({ nextPageToken, items }) => {
+  ).flatMap(({ nextPageToken, items, playlistTitle }) => {
     const allItems = currentItems.concat(items);
     return Observable.if(
       () => !!nextPageToken,
-      getPlaylistItems(playlistId, nextPageToken, allItems),
-      Observable.of(allItems)
+      getPlaylistItems({ playlistId, playlistTitle }, nextPageToken, allItems),
+      Observable.of({ videos: allItems, playlistTitle })
     );
   });
 }
@@ -64,28 +68,25 @@ function getPlayLists(nextPage, currentItems = []) {
 exports.getYoutubeData = function getYoutubeData() {
   return getPlayLists()
     .flatMap(playlists => {
-      return Observable.from(playlists).concatMap(({ id }) =>
-        getPlaylistItems(id)
+      return Observable.from(playlists).concatMap(
+        ({ id, snippet: { title } }) =>
+          getPlaylistItems({ playlistId: id, playlistTitle: title })
       );
     })
-    .flatMap(videos => {
+    .flatMap(({ videos, playlistTitle }) => {
       const formattedVideos = videos
         .map(video => {
           const {
             id,
-            snippet: {
-              title,
-              description,
-              resourceId: { videoId },
-              thumbnails: { standard = {} } = {}
-            }
+            snippet: { title, description, resourceId: { videoId }, thumbnails }
           } = video;
           return {
             id,
             videoId,
             title,
             description,
-            thumbnail: standard
+            thumbnails,
+            playlistTitle
           };
         })
         .reduce(
@@ -93,7 +94,7 @@ exports.getYoutubeData = function getYoutubeData() {
             ...chunked,
             ...chunkDocument(
               current,
-              ['id', 'videoId', 'title', 'thumbnail'],
+              ['id', 'videoId', 'title', 'thumbnail', 'playlistTitle'],
               'description'
             )
           ],

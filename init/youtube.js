@@ -8,9 +8,10 @@ const index = client.initIndex('youtube');
 
 index.setSettings(
   {
-    searchableAttributes: ['title', 'description'],
+    searchableAttributes: ['title', 'description', 'playlistTitle'],
     distinct: true,
-    attributeForDistinct: 'id'
+    attributeForDistinct: 'id',
+    attributesForFaceting: ['playlistTitle']
   },
   (err, response) => {
     if (err) {

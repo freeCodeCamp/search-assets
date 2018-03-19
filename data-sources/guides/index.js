@@ -40,11 +40,12 @@ function buildArticle(dirLevel) {
     .toLowerCase();
   const article = {
     content,
+    category: url.split('/').filter(Boolean)[0],
     title: pageTitle,
     url: `/${url}`,
     id: url.replace('/', '-')
   };
-  return chunkDocument(article, ['title', 'url', 'id'], 'content');
+  return chunkDocument(article, ['title', 'url', 'id', 'category'], 'content');
 }
 
 function articleStream(dirLevel) {
