@@ -23,7 +23,7 @@ describe('<FCCSearchBar />', () => {
     expect(wrapper.find('label').text()).to.equal('Search');
   });
 
-  it('the label should have a class of "sr-only"', () => {
-    expect(wrapper.find('label').hasClass('sr-only')).to.be.true;
+  it('the label should have a class of "fcc_sr_only"', () => {
+    expect(wrapper.find('label').hasClass('fcc_sr_only'));
   });
 });

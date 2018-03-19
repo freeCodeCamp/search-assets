@@ -13,8 +13,8 @@
     "dev": "NODE_ENV=development webpack-dev-server --config ./devServer/webpack.config.js --content-base devServer/build/public --inline --hot --port 8000",
     "dev-build": "webpack --config ./devServer/webpack.config.js",
     "eslint-init": "eslint --init",
-    "format": "prettier --single-quote es5 --write '{src,__tests__}/**/*.js'",
-    "lint": "eslint --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
+    "format": "prettier --single-quote es5 --write '{src,__tests__}/**/*.js' && yarn lint",
+    "lint": "eslint --fix --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
     "inspect": "NODE_ENV=production webpack --profile --json > webpack-stats.json",
     "pretest": "npm run build",
     "prepare": "npm run build",
@@ -30,12 +30,13 @@
     }
   },
   "dependencies": {
+    "react-instantsearch": "^5.0.1",
     "rxjs": "^5.5.7",
     "xhr": "^2.4.1"
   },
   "peerDependencies": {
     "react": "^15.6.2",
-    "react-bootstrap": "^0.32.1"
+    "lodash": "^4.17.5"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -51,13 +52,15 @@
     "chai": "^4.1.2",
     "css-loader": "^0.28.10",
     "enzyme": "^2.9.1",
-    "eslint": "^4.18.2",
+    "eslint": "^4.19.0",
     "eslint-config-essentials": "^1.1.1",
+    "eslint-config-freecodecamp": "^1.1.1",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^7.7.0",
     "express": "^4.16.3",
     "jest": "^20.0.4",
+    "lodash": "^4.17.5",
     "nodemon": "^1.17.2",
     "prettier": "^1.11.1",
     "prop-types": "^15.6.1",

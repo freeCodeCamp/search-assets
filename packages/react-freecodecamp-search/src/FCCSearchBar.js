@@ -1,161 +1,77 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Subject } from 'rxjs/Subject';
-import { merge } from 'rxjs/observable/merge';
-import { debounceTime } from 'rxjs/operators/debounceTime';
-import { throttleTime } from 'rxjs/operators/throttleTime';
-import { distinctUntilChanged } from 'rxjs/operators/distinctUntilChanged';
-import ControlLabel from 'react-bootstrap/lib/ControlLabel';
-import FormControl from 'react-bootstrap/lib/FormControl';
-import FormGroup from 'react-bootstrap/lib/FormGroup';
-import SearchResults from './components/SearchResults';
-import InputGroup from 'react-bootstrap/lib/InputGroup';
-import Glyphicon from 'react-bootstrap/lib/Glyphicon';
-import Button from 'react-bootstrap/lib/Button';
-import { search } from './search';
-import { mainCSS, dropdownCSS } from './css';
+import find from 'lodash/find';
+import { SearchBox, InstantSearch, Configure } from 'react-instantsearch/dom';
+
+import SearchHits from './components/SearchHits';
+import { algolia, overrides } from './css';
 
 const propTypes = {
-  dropdown: PropTypes.bool,
-  handleResults: PropTypes.func,
-  handleSearchingState: PropTypes.func,
-  handleSearchTerm: PropTypes.func,
   placeholder: PropTypes.string
 };
 
 const defaultProps = {
-  dropdown: false,
-  handleResults: () => {},
-  handleSearchTerm: () => {},
-  placeholder: 'Search 8,000+ lessons, articles, and videos',
-  handleSearchingState: () => {}
+  placeholder: 'Search 8,000+ lessons, articles, and videos'
+};
+
+const defaultPrefixRE = /^search\sfor\s\"/i;
+const defalutPostfixRE = /\"$/;
+
+function stripDefaultFixes(str) {
+  return str.replace(defaultPrefixRE, '').replace(defalutPostfixRE, '');
+}
+
+function openSearchWindow(query = '') {
+  return window.open(
+    `https://search.freecodecamp.org/results?q=${query}`,
+    '_blank'
+  );
+}
+
+const handleSubmit = e => {
+  e.preventDefault();
+  const query = stripDefaultFixes(e.target.parentElement.innerText);
+  const fallbackQueryNode = find(
+    [...document.querySelectorAll('[data-fccobjectid]')],
+    node => node.dataset.fccobjectid.includes('default-hit-')
+  );
+  const fallbackQuery = stripDefaultFixes(fallbackQueryNode.innerText);
+  if (!query) {
+    // user did not click on a suggestion
+    // instead they pressed enter or clicked the search button
+    return openSearchWindow(fallbackQuery);
+  }
+  return openSearchWindow(query);
 };
 
 class FCCSearchBar extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    let previousSearchTerm = '';
-    this.getSearchResults = this.getSearchResults.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleBlur = this.handleBlur.bind(this);
-    this.provideFeedback = this.provideFeedback.bind(this);
-    this.reset = this.reset.bind(this);
-    this.setState = this.setState.bind(this);
-    this.state = {
-      isSearching: false,
-      results: [],
-      searchTerm: ''
-    };
-    this.input = new Subject();
-    this.stream$ = merge(
-      this.input.pipe(debounceTime(500)),
-      this.input.pipe(throttleTime(500), distinctUntilChanged())
-    ).subscribe(() => {
-      const { searchTerm } = this.state;
-      if (searchTerm.length > 2 && searchTerm !== previousSearchTerm) {
-        previousSearchTerm = searchTerm.slice(0);
-        this.getSearchResults();
-      }
-      previousSearchTerm = searchTerm.slice(0);
-      return;
-    });
+  componentDidMount() {
+    const searchInput = document.querySelector('.ais-SearchBox-input');
+    searchInput.id = 'fcc_instantsearch';
   }
-
-  componentDidUpdate() {
-    this.provideFeedback();
-  }
-
-  getSearchResults() {
-    const { searchTerm } = this.state;
-    this.setState(
-      state => ({
-        ...state,
-        isSearching: true
-      }),
-      () => {
-        search({
-          update: this.setState,
-          searchTerm
-        });
-      }
-    );
-  }
-
-  handleBlur() {
-    // allow time for a result click
-    return setTimeout(() => this.reset(), 200);
-  }
-
-  handleChange(e) {
-    const { value } = e.target;
-    this.setState(
-      state => ({
-        ...state,
-        searchTerm: value
-      }),
-      () => this.input.next()
-    );
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    this.input.next();
-  }
-
-  provideFeedback() {
-    const {
-      handleResults,
-      handleSearchingState,
-      handleSearchTerm
-    } = this.props;
-    const { results, isSearching, searchTerm } = this.state;
-    handleResults(results);
-    handleSearchingState(isSearching);
-    handleSearchTerm(searchTerm);
-    return;
-  }
-
-  reset() {
-    return this.setState(state => ({
-      ...state,
-      results: [],
-      searchTerm: ''
-    }));
-  }
-
   render() {
-    const { dropdown, placeholder } = this.props;
-    const { searchTerm, results } = this.state;
+    const { placeholder } = this.props;
     return (
-      <div className="fcc_searchBar">
-        <style dangerouslySetInnerHTML={{ __html: mainCSS + dropdownCSS }} />
-        <form onSubmit={this.handleSubmit} className="fcc_searchForm">
-          <ControlLabel htmlFor="fcc_searchInput" srOnly={true}>
-            Search
-          </ControlLabel>
-          <InputGroup>
-            <InputGroup.Addon>
-              <i className="fa fa-search" aria-hidden="true" />
-            </InputGroup.Addon>
-            <FormControl
-              autoComplete="off"
-              className="fcc_input"
-              id="fcc_searchInput"
-              onBlur={this.handleBlur}
-              onChange={this.handleChange}
-              placeholder={typeof placeholder === 'string' ? placeholder : ''}
-              type="text"
-              value={searchTerm}
-            />
-            <InputGroup.Button>
-              <Button bsStyle="primary">Search</Button>
-            </InputGroup.Button>
-          </InputGroup>
-        </form>
-        {dropdown && results.length ? (
-          <SearchResults reset={this.reset} results={results} />
-        ) : null}
+      <div className='fcc_searchBar'>
+        <style
+          dangerouslySetInnerHTML={{ __html: algolia.concat(overrides) }}
+        />
+        <InstantSearch
+          apiKey='4318af87aa3ce128708f1153556c6108'
+          appId='QMJYL5WYTI'
+          indexName='query_suggestions'
+          >
+          <div className='fcc_search_wrapper'>
+            <label className='fcc_sr_only' htmlFor='fcc_instantsearch'>
+              Search
+            </label>
+            <SearchBox onSubmit={handleSubmit} translations={{ placeholder }} />
+            <div className='fcc_hits_wrapper'>
+              <SearchHits handleSubmit={handleSubmit} />
+            </div>
+          </div>
+          <Configure hitsPerPage={8} />
+        </InstantSearch>
       </div>
     );
   }
