@@ -7,11 +7,13 @@
     "dev": "nodemon server",
     "init": "node init",
     "build:server": "npx babel server --out-dir lib --ignore spec.js,test.js",
-    "format": "prettier --single-quote es5 --write './!(packages)/*.js'",
-    "test-server": "mocha --require babel-polyfill --compilers js:babel-register -R spec ./server/**/*test.js",
-    "test-server:watch": "mocha --require babel-polyfill --compilers js:babel-register -R spec ./server/**/*test.js --watch",
-    "test": "npm run test-server",
-    "test:watch": "npm run test-server:watch"
+    "format": "prettier --single-quote es5 --write './!(packages|www)/**/*.js'",
+    "test": "yarn test-server && yarn test-utils",
+    "test-utils": "mocha  -R spec ./utils/**/*test.js",
+    "test-utils:watch": "mocha  -R spec ./utils/**/*test.js --watch",
+    "test-server": "mocha  -R spec ./server/**/*test.js",
+    "test-server:watch": "mocha  -R spec ./server/**/*test.js --watch",
+    "test:watch": "yarn test-server:watch"
   },
   "repository": {
     "type": "git",
@@ -43,24 +45,29 @@
     "lodash": "^4.17.5",
     "node-svn-ultimate": "^1.1.0",
     "pmx": "^1.6.4",
+    "pug": "^2.0.1",
     "rxjs": "^5.5.7",
-    "secure-compare": "^3.0.1"
+    "secure-compare": "^3.0.1",
+    "validator": "^9.4.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
+    "@babel/core": "^7.0.0-beta.42",
+    "@babel/preset-env": "^7.0.0-beta.42",
     "babel-eslint": "^8.2.2",
-    "babel-polyfill": "^6.26.0",
     "babel-register": "^6.26.0",
+    "chai": "^4.1.2",
     "eslint": "^4.18.2",
     "eslint-config-freecodecamp": "^1.1.1",
     "eslint-plugin-import": "^2.9.0",
     "eslint-plugin-prefer-object-spread": "^1.2.1",
     "eslint-plugin-react": "^7.7.0",
+    "html-entities": "^1.2.1",
     "mocha": "^5.0.4",
     "nodemon": "^1.17.2",
     "prettier": "^1.11.1",
     "proxyquire": "^2.0.0",
     "sinon": "^4.4.6",
+    "striptags": "^3.1.1",
     "supertest": "^3.0.0"
   }
 }
