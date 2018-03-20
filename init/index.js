@@ -11,15 +11,15 @@ const { Observable } = require('rxjs');
 
 const dataSources = [
   // insertGuides,
-  // insertYoutube
-  // insertChallenges
+  // insertChallenges,
+  // insertYoutube,
   // disable this until the roll out of news
   // getStoryData
 ];
 
 function init() {
   Observable.zip(
-    Observable.timer(0, 2000),
+    Observable.timer(0, 5000),
     Observable.from(dataSources),
     (a, b) => b
   ).subscribe(

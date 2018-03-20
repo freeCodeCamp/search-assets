@@ -4,7 +4,7 @@ const svn = require('node-svn-ultimate');
 
 const getChallenges = require('./seed/getChallenges');
 const fs = require('fs-extra');
-const { logger, chunkDocument } = require('../../utils');
+const { logger, chunkDocument, stripHTML, stripURLs } = require('../../utils');
 
 const log = logger('data-source:challenges');
 
@@ -24,12 +24,12 @@ function streamChallenges() {
       .reduce((acc, current) => {
         const { id, title, description } = current;
         const dashedName = dasherize(title);
-
+        const dirtyDescription = description ? description.join('').trim() : '';
         const formattedChallenge = {
           blockName: name,
           id,
           title,
-          description: description ? description.join('').trim() : '',
+          description: stripURLs(stripHTML(dirtyDescription)),
           url: `https://freecodecamp.org/challenges/${block}/${dashedName}`
         };
         return [

@@ -2,7 +2,13 @@ const path = require('path');
 const Rx = require('rxjs');
 const svn = require('node-svn-ultimate');
 const fse = require('fs-extra');
-const { logger, chunkDocument, listDirectory } = require('../../utils');
+const {
+  logger,
+  chunkDocument,
+  listDirectory,
+  stripHTML,
+  stripURLs
+} = require('../../utils');
 const { titleify } = require('./utils');
 
 const log = logger('data-source:guides');
@@ -39,7 +45,7 @@ function buildArticle(dirLevel) {
     .join('/')
     .toLowerCase();
   const article = {
-    content,
+    content: stripURLs(stripHTML(content)),
     category: url.split('/').filter(Boolean)[0],
     title: pageTitle,
     url: `/${url}`,

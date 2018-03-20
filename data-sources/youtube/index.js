@@ -1,6 +1,6 @@
 const Rx = require('rxjs');
 const { google } = require('googleapis');
-const { chunkDocument } = require('../../utils');
+const { chunkDocument, stripHTML, stripURLs } = require('../../utils');
 
 const { Observable } = Rx;
 const { YOUTUBE_SECRET } = process.env;
@@ -11,22 +11,26 @@ function getPlaylistItems(
   nextPage,
   currentItems = []
 ) {
-  return Observable.fromPromise(
-    new Promise((resolve, reject) => {
-      youtube.playlistItems.list(
-        {
-          part: 'snippet',
-          playlistId,
-          pageToken: nextPage ? nextPage : ''
-        },
-        (err, data) => {
-          if (err) {
-            return reject(err);
+  return Observable.zip(
+    Observable.timer(2000),
+    Observable.fromPromise(
+      new Promise((resolve, reject) => {
+        youtube.playlistItems.list(
+          {
+            part: 'snippet',
+            playlistId,
+            pageToken: nextPage ? nextPage : ''
+          },
+          (err, data) => {
+            if (err) {
+              return reject(err);
+            }
+            return resolve({ ...data.data, playlistTitle });
           }
-          return resolve({ ...data.data, playlistTitle });
-        }
-      );
-    })
+        );
+      })
+    ),
+    (a, b) => b
   ).flatMap(({ nextPageToken, items, playlistTitle }) => {
     const allItems = currentItems.concat(items);
     return Observable.if(
@@ -83,8 +87,8 @@ exports.getYoutubeData = function getYoutubeData() {
           return {
             id,
             videoId,
-            title,
-            description,
+            title: stripHTML(title),
+            description: stripURLs(stripHTML(description)),
             thumbnails,
             playlistTitle
           };
