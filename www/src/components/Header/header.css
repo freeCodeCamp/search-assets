@@ -1,0 +1,29 @@
+header {
+  background: #006400;
+}
+
+header nav {
+  display: flex;
+  margin: 0 auto;
+  max-width: 960px;
+  padding: 0px 1.0875rem;
+}
+
+.nav-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 36px;
+  flex-grow: 0;
+  max-width: 170px;
+  margin-right: 10px;
+}
+
+.nav-logo > img {
+  margin: 0px;
+}
+
+.ais-SearchBox {
+  height: 36px;
+  flex-grow: 1;
+}

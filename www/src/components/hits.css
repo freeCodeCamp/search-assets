@@ -1,0 +1,31 @@
+.ais-Hits-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ais-Hits-item {
+  width: calc(95% - 1rem);
+  margin-top: 0;
+  border-color: #006400;
+  color: #333;
+}
+
+.ais-Hits-item p > span {
+   font-size: 80%;
+ }
+
+.hits-block-wrapper {
+  border: 1px solid #006400;
+  margin-bottom: 15px;
+}
+
+.hits-block-title > h4 {
+  padding: 5px 0px 2px 10px;
+  background-color: #006400;
+  color: white;
+}
+
+.result-block hr {
+  background: rgba(0, 100, 0, 0.4);
+}
