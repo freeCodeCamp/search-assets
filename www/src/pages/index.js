@@ -1,5 +1,4 @@
-import React, { Fragment } from 'react';
-import Link from 'gatsby-link';
+import React from 'react';
 
 import SearchHits from '../components/SearchHits';
 

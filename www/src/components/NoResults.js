@@ -7,7 +7,7 @@ const propTypes = {
 
 function NoResults({ query }) {
   return (
-    <div className='no-results-wrapper'>
+    <div className="no-results-wrapper">
       <p>{`We could not find anything relating to ${query}`}</p>
     </div>
   );

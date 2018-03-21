@@ -1,7 +1,7 @@
 import React from 'react';
 import {
   connectStateResults,
-  connectHits,
+  connectAutoComplete
 } from 'react-instantsearch/connectors';
 import isEmpty from 'lodash/isEmpty';
 
@@ -14,7 +14,7 @@ import './hits.css';
 const attributes = {
   challenges: ['title', 'description'],
   guides: ['title', 'content'],
-  youtube: ['title', 'description'],
+  youtube: ['title', 'description']
 };
 
 const ChallengeHit = makeResult(...attributes.challenges);
@@ -29,16 +29,16 @@ YoutubeHit.displayName = 'YoutubeHit';
 const hitCompMap = {
   challenges: ChallengeHit,
   guides: GuidesHit,
-  youtube: YoutubeHit,
+  youtube: YoutubeHit
 };
 
 const blockTitleMap = {
   challenges: 'Lessons',
   guides: 'Guide',
-  youtube: 'YouTube',
+  youtube: 'YouTube'
 };
 
-const AllHits = connectHits(
+const AllHits = connectAutoComplete(
   ({ hits, handleSubmit }) =>
     hits.length ? (
       <div className="ais-Hits">
@@ -70,7 +70,7 @@ const AllHits = connectHits(
 AllHits.displayName = 'AllHits';
 
 const SearchHits = connectStateResults(
-  ({ attributes, handleSubmit, searchResults, searchState, hitComponent }) => {
+  ({ handleSubmit, searchResults, searchState }) => {
     const isSearchEmpty = isEmpty(searchState) || !searchState.query;
     const results = searchResults && searchResults.nbHits !== 0;
 

@@ -1,3 +1,8 @@
 {
-	"extends": "freecodecamp"
+	"extends": "freecodecamp",
+	"rules" : {
+		"no-nested-ternary": 0,
+		"jsx-quotes": 0,
+		"react/jsx-closing-bracket-location": [1, "line-aligned"]
+	}
 }

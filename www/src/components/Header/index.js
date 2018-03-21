@@ -1,8 +1,5 @@
 import React from 'react';
-import Link from 'gatsby-link';
 import { SearchBox } from 'react-instantsearch/dom';
-
-import SearchHits from './../SearchHits';
 
 import './header.css';
 
@@ -17,7 +14,7 @@ const Header = () => (
       </div>
       <SearchBox
         translations={{
-          placeholder: 'Search 8,000+ lessons, articles, and videos',
+          placeholder: 'Search 8,000+ lessons, articles, and videos'
         }}
       />
     </nav>

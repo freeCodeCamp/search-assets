@@ -1,3 +1,4 @@
+/* global graphql */
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
@@ -6,16 +7,28 @@ import { InstantSearch, Index, Configure } from 'react-instantsearch/dom';
 import Header from '../components/Header';
 import './index.css';
 
+const propTypes = {
+  children: PropTypes.func,
+  data: PropTypes.shape({
+    site: PropTypes.shape({
+      siteMetadata: PropTypes.shape({
+        description: PropTypes.string,
+        title: PropTypes.string
+      })
+    })
+  })
+};
+
 const TemplateWrapper = ({ children, data }) => {
   const { title, description } = data.site.siteMetadata;
   return (
     <Fragment>
       <Helmet
-        title={title}
         meta={[
           { name: 'description', content: description },
-          { name: 'keywords', content: 'sample, something' },
+          { name: 'keywords', content: 'sample, something' }
         ]}
+        title={title}
       />
       <InstantSearch
         apiKey="4318af87aa3ce128708f1153556c6108"
@@ -32,9 +45,7 @@ const TemplateWrapper = ({ children, data }) => {
   );
 };
 
-TemplateWrapper.propTypes = {
-  children: PropTypes.func,
-};
+TemplateWrapper.propTypes = propTypes;
 
 export default TemplateWrapper;
 
