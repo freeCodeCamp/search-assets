@@ -30,7 +30,7 @@ function streamChallenges() {
           id,
           title,
           description: stripURLs(stripHTML(dirtyDescription)),
-          url: `https://freecodecamp.org/challenges/${block}/${dashedName}`
+          url: `/challenges/${block}/${dashedName}`
         };
         return [
           ...acc,
