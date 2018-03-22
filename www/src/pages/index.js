@@ -14,10 +14,7 @@ function getDataset(node, count = 0) {
 }
 
 function openBlankWindow(url) {
-  return window.open(
-    url,
-    '_blank'
-  );
+  return window.open(url, '_blank');
 }
 
 const indexUrlMap = {
@@ -34,14 +31,11 @@ function handleClick(e) {
     console.warn('expected a dataset, got %s', dataset);
     return null;
   }
-  const {
-    fccContentIndex: index,
-    fccContentUrl: splat
-  } = dataset;
+  const { fccContentIndex: index, fccContentUrl: splat } = dataset;
   const url = `${indexUrlMap[index]}${splat}`;
   return openBlankWindow(url);
 }
 
-const IndexPage = () => <SearchHits handleClick={handleClick}/>;
+const IndexPage = () => <SearchHits handleClick={handleClick} />;
 
 export default IndexPage;

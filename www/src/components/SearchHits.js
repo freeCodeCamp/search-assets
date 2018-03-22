@@ -27,7 +27,9 @@ const AllHits = connectAutoComplete(
               <li
                 className="ais-Hits-item dataset-node"
                 data-fcc-content-index={index}
-                data-fcc-content-url={'videoId' in result ? result.videoId : result.url}
+                data-fcc-content-url={
+                  'videoId' in result ? result.videoId : result.url
+                }
                 key={result.objectID}
                 onClick={handleClick}
               >
