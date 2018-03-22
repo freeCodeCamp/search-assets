@@ -1,23 +1,23 @@
 import React, { PureComponent } from 'react';
-import { SearchBox } from 'react-instantsearch/dom';
-import qs from 'query-string';
+// import { SearchBox } from 'react-instantsearch/dom';
+// import qs from 'query-string';
 
 import './header.css';
 
 class Header extends PureComponent {
-  componentDidMount() {
-    const { props: searchBoxProps, refine } = this._SearchBox_;
-    const { defaultRefinement } = searchBoxProps;
-    return defaultRefinement ? refine(defaultRefinement) : null;
-  }
+  // componentDidMount() {
+  //   const { props: searchBoxProps, refine } = this._SearchBox_;
+  //   const { defaultRefinement } = searchBoxProps;
+  //   return defaultRefinement ? refine(defaultRefinement) : null;
+  // }
 
-  getQueryFromLocation() {
-    if (typeof window === 'undefined') {
-      return '';
-    }
-    const { q: query } = qs.parse(window.location.search);
-    return query ? query : '';
-  }
+  // getQueryFromLocation() {
+  //   if (typeof window === 'undefined') {
+  //     return '';
+  //   }
+  //   const { q: query } = qs.parse(window.location.search);
+  //   return query ? query : '';
+  // }
 
   render() {
     return (
@@ -29,7 +29,7 @@ class Header extends PureComponent {
               src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg"
             />
           </div>
-          <SearchBox
+          {/* <SearchBox
             defaultRefinement={this.getQueryFromLocation()}
             ref={ref => {
               this._SearchBox_ = ref;
@@ -37,7 +37,8 @@ class Header extends PureComponent {
             translations={{
               placeholder: 'Search 8,000+ lessons, articles, and videos'
             }}
-          />
+          /> */}
+          {this.props.children}
         </nav>
       </header>
     );
