@@ -5,6 +5,7 @@ import Helmet from 'react-helmet';
 import { InstantSearch, Index, Configure } from 'react-instantsearch/dom';
 
 import Header from '../components/Header';
+import Autocomplete from '../components/Autocomplete';
 import './index.css';
 
 const propTypes = {
@@ -35,7 +36,9 @@ const TemplateWrapper = ({ children, data }) => {
         appId="QMJYL5WYTI"
         indexName="challenges"
       >
-        <Header />
+        <Header>
+          <Autocomplete />
+        </Header>
         <Index indexName="guides" />
         <Index indexName="youtube" />
         <Configure hitsPerPage={8} />
