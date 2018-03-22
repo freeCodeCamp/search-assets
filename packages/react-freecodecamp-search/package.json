@@ -31,13 +31,14 @@
     }
   },
   "dependencies": {
+    "query-string": "^6.0.0",
     "react-instantsearch": "^5.0.1",
     "rxjs": "^5.5.7",
     "xhr": "^2.4.1"
   },
   "peerDependencies": {
-    "react": "^15.6.2",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.5",
+    "react": "^15.6.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
