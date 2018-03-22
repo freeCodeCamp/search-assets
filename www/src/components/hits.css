@@ -13,6 +13,7 @@
   color: #333;
   padding:15px;
   box-shadow: none;
+  cursor: pointer;
 }
 
 .ais-Hits-item:hover {
