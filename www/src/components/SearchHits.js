@@ -3,34 +3,13 @@ import {
   connectStateResults,
   connectAutoComplete
 } from 'react-instantsearch/connectors';
+import { Highlight } from 'react-instantsearch/dom';
 import isEmpty from 'lodash/isEmpty';
 
-import { makeResult } from './Result';
 import EmptySearch from './EmptySearch';
 import NoResults from './NoResults';
 
 import './hits.css';
-
-const attributes = {
-  challenges: ['title', 'description'],
-  guides: ['title', 'content'],
-  youtube: ['title', 'description']
-};
-
-const ChallengeHit = makeResult(...attributes.challenges);
-ChallengeHit.displayName = 'ChallengeHit';
-
-const GuidesHit = makeResult(...attributes.guides);
-GuidesHit.displayName = 'GuidesHit';
-
-const YoutubeHit = makeResult(...attributes.youtube);
-YoutubeHit.displayName = 'YoutubeHit';
-
-const hitCompMap = {
-  challenges: ChallengeHit,
-  guides: GuidesHit,
-  youtube: YoutubeHit
-};
 
 const blockTitleMap = {
   challenges: 'Lessons',
@@ -39,30 +18,28 @@ const blockTitleMap = {
 };
 
 const AllHits = connectAutoComplete(
-  ({ hits, handleSubmit }) =>
+  ({ hits, handleClick }) =>
     hits.length ? (
       <div className="ais-Hits">
-        {hits.map(({ hits: results, index }) => {
-          const HitComponent = hitCompMap[index];
-          return (
-            <div className="hits-block-wrapper" key={index}>
-              <div className="hits-block-title">
-                <h4>{blockTitleMap[index]}</h4>
-              </div>
-              <ul className="ais-Hits-list">
-                {results.map(result => (
-                  <li
-                    className="ais-Hits-item"
-                    data-fccobjectid={result.objectID}
-                    key={result.objectID}
-                  >
-                    <HitComponent handleSubmit={handleSubmit} hit={result} />
-                  </li>
-                ))}
-              </ul>
-            </div>
-          );
-        })}
+        <ul className="ais-Hits-list">
+          {hits.map(({ hits: results, index }) =>
+            results.map(result => (
+              <li
+                className="ais-Hits-item dataset-node"
+                data-fcc-content-index={index}
+                data-fcc-content-url={'videoId' in result ? result.videoId : result.url}
+                key={result.objectID}
+                onClick={handleClick}
+              >
+                <p>
+                  <strong>{blockTitleMap[index]}</strong>
+                  &nbsp;
+                  <Highlight attribute="title" hit={result} />
+                </p>
+              </li>
+            ))
+          )}
+        </ul>
       </div>
     ) : null
 );
@@ -70,14 +47,14 @@ const AllHits = connectAutoComplete(
 AllHits.displayName = 'AllHits';
 
 const SearchHits = connectStateResults(
-  ({ handleSubmit, searchResults, searchState }) => {
+  ({ handleClick, searchResults, searchState }) => {
     const isSearchEmpty = isEmpty(searchState) || !searchState.query;
     const results = searchResults && searchResults.nbHits !== 0;
 
     return isSearchEmpty ? (
       <EmptySearch />
     ) : results ? (
-      <AllHits handleSubmit={handleSubmit} />
+      <AllHits handleClick={handleClick} />
     ) : (
       <NoResults query={searchState.query} />
     );

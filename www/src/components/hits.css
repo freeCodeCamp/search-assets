@@ -2,30 +2,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-left: 0;
+  border: 1px solid #006400;
 }
 
 .ais-Hits-item {
-  width: calc(95% - 1rem);
-  margin-top: 0;
-  border-color: #006400;
+  width: 100%;
+  margin: 0;
+  border-color: transparent;
+  color: #333;
+  padding:15px;
+  box-shadow: none;
+}
+
+.ais-Hits-item:hover {
+  background-color: rgba(0, 100, 0, 0.4);
+  color: white;
+}
+.ais-Hits-item:hover em {
   color: #333;
 }
 
-.ais-Hits-item p > span {
-   font-size: 80%;
- }
-
-.hits-block-wrapper {
-  border: 1px solid #006400;
-  margin-bottom: 15px;
-}
-
-.hits-block-title > h4 {
-  padding: 5px 0px 2px 10px;
-  background-color: #006400;
-  color: white;
-}
-
-.result-block hr {
-  background: rgba(0, 100, 0, 0.4);
-}
