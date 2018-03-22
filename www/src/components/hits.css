@@ -1,3 +1,9 @@
+.ais-Hits {
+  z-index: 100;
+  position: relative;
+  background: #fefefe;
+}
+
 .ais-Hits-list {
   display: flex;
   flex-direction: column;
@@ -6,14 +12,18 @@
   border: 1px solid #006400;
 }
 
+.ais-Hits-list > a {
+  width: 100%;
+  text-decoration: none;
+}
+
 .ais-Hits-item {
   width: 100%;
   margin: 0;
   border-color: transparent;
   color: #333;
-  padding:15px;
+  padding: 15px;
   box-shadow: none;
-  cursor: pointer;
 }
 
 .ais-Hits-item:hover {
@@ -24,3 +34,9 @@
   color: #333;
 }
 
+.no-results-wrapper {
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+align-items: center;
+}
