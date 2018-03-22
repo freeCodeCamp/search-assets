@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import find from 'lodash/find';
 import { SearchBox, InstantSearch, Configure } from 'react-instantsearch/dom';
+import qs from 'query-string';
 
 import SearchHits from './components/SearchHits';
 import { algolia, overrides } from './css';
@@ -23,7 +24,7 @@ function stripDefaultFixes(str) {
 
 function openSearchWindow(query = '') {
   return window.open(
-    `https://search.freecodecamp.org/results?q=${query}`,
+    `https://search.freecodecamp.org/?${qs.stringify({ q: query })}`,
     '_blank'
   );
 }
