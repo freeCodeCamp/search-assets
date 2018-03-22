@@ -1,7 +1,12 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import './header.css';
 
-function Header() {
+const propTypes = {
+  children: PropTypes.node
+};
+
+function Header({ children }) {
   return (
     <header>
       <nav>
@@ -11,10 +16,13 @@ function Header() {
             src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg"
           />
         </div>
-        {this.props.children}
+        {children}
       </nav>
     </header>
   );
 }
+
+Header.displayName = 'Header';
+Header.propTypes = propTypes;
 
 export default Header;
