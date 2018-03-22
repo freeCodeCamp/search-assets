@@ -7,6 +7,7 @@ import { InstantSearch, Index, Configure } from 'react-instantsearch/dom';
 import qs from 'query-string';
 
 import Header from '../components/Header';
+import Autocomplete from '../components/Autocomplete';
 import './index.css';
 
 const propTypes = {
@@ -65,7 +66,9 @@ class TemplateWrapper extends Component {
           onSearchStateChange={this.onSearchStateChange}
           searchState={searchState}
         >
-          <Header />
+          <Header>
+            <Autocomplete />
+          </Header>
           <Index indexName="guides" />
           <Index indexName="youtube" />
           <Configure hitsPerPage={8} />

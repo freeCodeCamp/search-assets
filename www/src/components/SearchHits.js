@@ -11,57 +11,65 @@ import NoResults from './NoResults';
 
 import './hits.css';
 
-const blockTitleMap = {
-  challenges: 'Lessons',
-  guides: 'Guide',
-  youtube: 'YouTube'
+const indexMap = {
+  challenges: {
+    title: 'Lesson',
+    url: 'https://beta.freecodecamp.org'
+  },
+  guides: {
+    title: 'Guide',
+    url: 'https://guide.freecodecamp.org'
+  },
+  youtube: {
+    title: 'YouTube',
+    url: 'https://www.youtube.com/watch?v='
+  }
 };
 
-const AllHits = connectAutoComplete(
-  ({ hits, handleClick }) =>
-    hits.length ? (
-      <div className="ais-Hits">
-        <ul className="ais-Hits-list">
-          {hits.map(({ hits: results, index }) =>
-            results.map(result => (
-              <li
-                className="ais-Hits-item dataset-node"
-                data-fcc-content-index={index}
-                data-fcc-content-url={
-                  'videoId' in result ? result.videoId : result.url
-                }
-                key={result.objectID}
-                onClick={handleClick}
-              >
+const buildUrl = (index, result) =>
+  `${indexMap[index].url}${'videoId' in result ? result.videoId : result.url}`;
+
+const AllHits = connectAutoComplete(({ hits, currentRefinement }) => {
+  const isHitsEmpty = hits.every(index => !index.hits.length);
+
+  return currentRefinement && !isHitsEmpty ? (
+    <div className="ais-Hits">
+      <ul className="ais-Hits-list">
+        {hits.map(({ hits: results, index }) =>
+          results.map(result => (
+            <a
+              href={buildUrl(index, result)}
+              key={result.objectID}
+              target="_blank"
+            >
+              <li className="ais-Hits-item dataset-node">
                 <p>
-                  <strong>{blockTitleMap[index]}</strong>
+                  <strong>{indexMap[index].title}:</strong>
                   &nbsp;
                   <Highlight attribute="title" hit={result} />
                 </p>
               </li>
-            ))
-          )}
-        </ul>
-      </div>
-    ) : null
-);
+            </a>
+          ))
+        )}
+      </ul>
+    </div>
+  ) : (
+    <NoResults query={currentRefinement} />
+  );
+});
 
 AllHits.displayName = 'AllHits';
 
-const SearchHits = connectStateResults(
-  ({ handleClick, searchResults, searchState }) => {
-    const isSearchEmpty = isEmpty(searchState) || !searchState.query;
-    const results = searchResults && searchResults.nbHits !== 0;
+const SearchHits = connectStateResults(({ handleClick, searchState }) => {
+  const isSearchEmpty = isEmpty(searchState) || !searchState.query;
 
-    return isSearchEmpty ? (
-      <EmptySearch />
-    ) : results ? (
-      <AllHits handleClick={handleClick} />
-    ) : (
-      <NoResults query={searchState.query} />
-    );
-  }
-);
+  return isSearchEmpty ? (
+    <EmptySearch />
+  ) : (
+    <AllHits handleClick={handleClick} />
+  );
+});
 
 SearchHits.displayName = 'SearchHits';
 

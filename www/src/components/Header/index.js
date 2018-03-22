@@ -1,9 +1,12 @@
 import React from 'react';
-import { SearchBox } from 'react-instantsearch/dom';
-
+import PropTypes from 'prop-types';
 import './header.css';
 
-function Header() {
+const propTypes = {
+  children: PropTypes.node
+};
+
+function Header({ children }) {
   return (
     <header>
       <nav>
@@ -13,14 +16,13 @@ function Header() {
             src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg"
           />
         </div>
-        <SearchBox
-          translations={{
-            placeholder: 'Search 8,000+ lessons, articles, and videos'
-          }}
-        />
+        {children}
       </nav>
     </header>
   );
 }
+
+Header.displayName = 'Header';
+Header.propTypes = propTypes;
 
 export default Header;
