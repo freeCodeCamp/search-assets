@@ -36,6 +36,7 @@ function handleClick(e) {
   return openBlankWindow(url);
 }
 
-const IndexPage = () => <SearchHits handleClick={handleClick} />;
+// const IndexPage = () => <SearchHits handleClick={handleClick} />;
+const IndexPage = () => <p>Hello from the IndexPage</p>;
 
 export default IndexPage;
