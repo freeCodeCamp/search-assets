@@ -62,8 +62,8 @@ class TemplateWrapper extends Component {
           apiKey="4318af87aa3ce128708f1153556c6108"
           appId="QMJYL5WYTI"
           indexName="challenges"
-          searchState={searchState}
           onSearchStateChange={this.onSearchStateChange}
+          searchState={searchState}
         >
           <Header />
           <Index indexName="guides" />
