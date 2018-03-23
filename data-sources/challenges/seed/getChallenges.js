@@ -1,7 +1,9 @@
+/* eslint-disable no-self-compare */
+// no import here as this runs without babel
 const fs = require('fs');
 const path = require('path');
 
-const hiddenFile = /^(\.|\/\.)/g;
+const hiddenFile = /(^(\.|\/\.))|(.md$)/g;
 function getFilesFor(dir) {
   return fs
     .readdirSync(path.join(__dirname, '/' + dir))

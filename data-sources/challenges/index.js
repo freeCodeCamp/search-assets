@@ -53,9 +53,10 @@ function getChallengeData() {
     .flatMap(() =>
       Observable.fromPromise(
         new Promise((resolve, reject) => {
+          // this should point to master after beta release
           svn.commands.checkout(
-            'https://github.com/freecodecamp/freecodecamp/branches/master' +
-              '/seed/challenges',
+            'https://github.com/freecodecamp/freecodecamp/trunk/' +
+              'seed/challenges',
             challengesDir,
             err => {
               if (err) {
