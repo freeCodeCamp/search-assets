@@ -3,7 +3,7 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { InstantSearch, Index, Configure } from 'react-instantsearch/dom';
+import { InstantSearch, Index, Configure, PoweredBy } from 'react-instantsearch/dom';
 import qs from 'query-string';
 
 import Header from '../components/Header';
@@ -73,6 +73,9 @@ class TemplateWrapper extends Component {
           <Index indexName="youtube" />
           <Configure hitsPerPage={8} />
           <main>{children()}</main>
+          <footer>
+            <PoweredBy />
+          </footer>
         </InstantSearch>
       </Fragment>
     );

@@ -10,6 +10,11 @@ main {
   padding: 0px 1.0875rem 1.45rem;
   margin-top: 1rem;
 }
+footer > .ais-PoweredBy {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 25px;
+}
 body {
   margin: 0;
 }
