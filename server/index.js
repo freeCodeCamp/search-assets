@@ -7,9 +7,9 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const pmx = require('pmx');
-const { log } = require('../utils');
+const { logger } = require('../utils');
 
-const logger = log('server');
+const log = logger('server');
 const PORT = process.env.PORT || 7000;
 const webhookRouter = require('./endpoints/webhooks');
 // const newsRouter = require('./endpoints/news');
@@ -62,5 +62,5 @@ app.post('*', noMail);
 app.put('*', noMail);
 
 app.listen(PORT, () => {
-  logger(`API server listening on port ${PORT}!`);
+  log(`API server listening on port ${PORT}!`);
 });
