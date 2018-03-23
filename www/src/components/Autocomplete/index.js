@@ -36,7 +36,6 @@ function Autocomplete(props) {
       <form
         className="ais-SearchBox-form"
         noValidate={true}
-        ref={ref => {this.__formRef__ = ref;}}
       >
         <input
           autoCapitalize="off"
