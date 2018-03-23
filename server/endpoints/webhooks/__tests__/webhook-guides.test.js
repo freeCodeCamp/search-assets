@@ -14,14 +14,14 @@ const {
 } = require('./webhookPayloads');
 
 describe('POST /guides', () => {
-  let callInitStub, app, route, request;
+  let updateGuidesStub, app, route, request;
   beforeEach(function() {
-    callInitStub = sinon.stub();
+    updateGuidesStub = sinon.stub();
     app = express();
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     route = proxyquire('../webhook-guides', {
-      './callInit': callInitStub
+      '../../../update/guides': { updateGuides: updateGuidesStub }
     });
     route(app);
     request = supertest(app);
@@ -38,7 +38,7 @@ describe('POST /guides', () => {
       .post('/guides')
       .send(masterPROpen)
       .expect(() => {
-        if (callInitStub.called) {
+        if (updateGuidesStub.called) {
           throw new Error('guide update called!');
         }
       })
@@ -51,7 +51,7 @@ describe('POST /guides', () => {
       .send(masterNotMergedPR)
       .expect(200)
       .expect(() => {
-        if (callInitStub.called) {
+        if (updateGuidesStub.called) {
           throw new Error('guide update called!');
         }
       })
@@ -64,7 +64,7 @@ describe('POST /guides', () => {
       .send(notMasterMergedPR)
       .expect(200)
       .expect(() => {
-        if (callInitStub.called) {
+        if (updateGuidesStub.called) {
           throw new Error('guide update called!');
         }
       })
@@ -77,7 +77,7 @@ describe('POST /guides', () => {
       .send(masterMergedPR)
       .expect(200)
       .expect(() => {
-        if (!callInitStub.called) {
+        if (!updateGuidesStub.called) {
           throw new Error("guide update wasn't called!");
         }
       })
@@ -90,7 +90,7 @@ describe('POST /guides', () => {
       .send(fullScale)
       .expect(200)
       .expect(() => {
-        if (!callInitStub.called) {
+        if (!updateGuidesStub.called) {
           throw new Error("guide update wasn't called!");
         }
       })

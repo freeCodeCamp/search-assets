@@ -11,7 +11,7 @@ const concatContents = (doc, current) => ({
   content: doc.content.concat([current.content])
 });
 
-async function updateGuides() {
+exports.updateGuides = async function updateGuides() {
   const newDocs = await getGuideArticleData().toPromise();
   let hits = [];
   const browseAll = index.browseAll();
@@ -52,6 +52,4 @@ async function updateGuides() {
   browseAll.on('error', function onError(err) {
     throw err;
   });
-}
-
-updateGuides();
+};

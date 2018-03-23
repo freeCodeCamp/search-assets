@@ -3,8 +3,10 @@ const cors = require('cors');
 const fccRE = /https:\/\/([\w]+\.)?freecodecamp\.org/;
 const netlifyRE = /\.netlify\.com/;
 const whitelist = [
-  'http://localhost:3000', // fcc dev
-  'http://localhost:8000' // guides dev
+  // fcc dev
+  'http://localhost:3000',
+  // guides dev
+  'http://localhost:8000'
 ];
 
 function isTrustedOrigin(origin, callback) {
