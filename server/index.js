@@ -47,7 +47,7 @@ app.use(helmet());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.set('views', path.resolve(__dirname, '/views'));
+app.set('views', path.resolve(__dirname, './views'));
 app.set('view engine', 'pug');
 
 app.get('*', (req, res) => {
