@@ -1,5 +1,5 @@
 const { logger } = require('../../../utils');
-const { updateGuides } = require('../../../update/guides');
+const { updateGuides } = require('../../../data-push/update/guides');
 
 const log = logger('webhook-guides');
 

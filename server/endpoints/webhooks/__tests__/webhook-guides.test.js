@@ -21,7 +21,7 @@ describe('POST /guides', () => {
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     route = proxyquire('../webhook-guides', {
-      '../../../update/guides': { updateGuides: updateGuidesStub }
+      '../../../data-push/update/guides': { updateGuides: updateGuidesStub }
     });
     route(app);
     request = supertest(app);

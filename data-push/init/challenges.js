@@ -1,6 +1,6 @@
-const { client } = require('../algolia');
-const { logger } = require('../utils');
-const getChallengeData = require('../data-sources/challenges');
+const { client } = require('../../algolia');
+const { logger } = require('../../utils');
+const getChallengeData = require('../../data-sources/challenges');
 
 const log = logger('init:challenge');
 

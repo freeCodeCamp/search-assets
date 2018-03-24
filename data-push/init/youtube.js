@@ -1,6 +1,6 @@
-const { client } = require('../algolia');
-const { logger } = require('../utils');
-const { getYoutubeData } = require('../data-sources/youtube');
+const { client } = require('../../algolia');
+const { logger } = require('../../utils');
+const { getYoutubeData } = require('../../data-sources/youtube');
 
 const log = logger('init:youtube');
 

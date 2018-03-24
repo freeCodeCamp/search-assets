@@ -7,7 +7,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const helmet = require('helmet');
 const pmx = require('pmx');
-const { logger } = require('../utils');
+const { logger } = require('../../utils');
 
 const log = logger('server');
 const PORT = process.env.PORT || 7000;

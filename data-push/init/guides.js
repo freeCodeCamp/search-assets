@@ -1,8 +1,8 @@
 const { Observable } = require('rxjs');
 const _ = require('lodash');
-const { client } = require('../algolia');
-const { getGuideArticleData } = require('../data-sources/guides');
-const { logger } = require('../utils');
+const { client } = require('../../algolia');
+const { getGuideArticleData } = require('../../data-sources/guides');
+const { logger } = require('../../utils');
 
 const log = logger('init:guides');
 

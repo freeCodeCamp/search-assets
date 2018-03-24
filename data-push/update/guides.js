@@ -1,7 +1,7 @@
-const { client } = require('../algolia');
+const { client } = require('../../algolia');
 const _ = require('lodash');
-const { getGuideArticleData } = require('../data-sources/guides');
-const { logger } = require('../utils');
+const { getGuideArticleData } = require('../../data-sources/guides');
+const { logger } = require('../../utils');
 
 const log = logger('update:guides');
 const index = client.initIndex('guides');
