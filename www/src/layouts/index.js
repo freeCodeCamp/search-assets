@@ -52,14 +52,14 @@ class TemplateWrapper extends Component {
   render() {
     const { data, children } = this.props;
     const { searchState } = this.state;
-    const { title, description } = data.site.siteMetadata;
+    const { title, description, keywords } = data.site.siteMetadata;
 
     return (
       <Fragment>
         <Helmet
           meta={[
             { name: 'description', content: description },
-            { name: 'keywords', content: 'sample, something' }
+            { name: 'keywords', content: keywords.join(', ') }
           ]}
           title={title}
         />
@@ -97,6 +97,7 @@ export const query = graphql`
       siteMetadata {
         title
         description
+        keywords
       }
     }
   }
