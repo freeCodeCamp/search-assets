@@ -1,4 +1,5 @@
 .ais-Hits {
+  margin-top: 36px;
   z-index: 100;
   position: relative;
   background: #fefefe;
@@ -9,12 +10,16 @@
   flex-direction: column;
   align-items: center;
   margin-left: 0;
-  border: 1px solid #006400;
+  border: 1px solid #efefef;
 }
 
 .ais-Hits-list > a {
   width: 100%;
   text-decoration: none;
+}
+
+.ais-Hits-list > a:nth-child(odd) {
+  background-color: #efefef;
 }
 
 .ais-Hits-item {
