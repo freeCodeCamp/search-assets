@@ -3,11 +3,16 @@
 import React, { Fragment, Component } from 'react';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import { InstantSearch, Index, Configure, PoweredBy } from 'react-instantsearch/dom';
+import {
+  InstantSearch,
+  Index,
+  Configure,
+  PoweredBy
+} from 'react-instantsearch/dom';
 import qs from 'query-string';
 
 import Header from '../components/Header';
-import Autocomplete from '../components/Autocomplete';
+import SearchBar from '../components/SearchBar';
 import './index.css';
 
 const propTypes = {
@@ -67,7 +72,7 @@ class TemplateWrapper extends Component {
           searchState={searchState}
         >
           <Header>
-            <Autocomplete />
+            <SearchBar />
           </Header>
           <Index indexName="guides" />
           <Index indexName="youtube" />
