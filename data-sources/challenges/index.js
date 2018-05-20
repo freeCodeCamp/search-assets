@@ -17,32 +17,36 @@ function dasherize(name) {
 }
 
 function streamChallenges() {
-  return Observable.from(getChallenges()).flatMap(({ name, challenges }) => {
-    const block = dasherize(name);
-    const formattedChallenges = challenges
-      .filter(({ isPrivate }) => !isPrivate)
-      .reduce((acc, current) => {
-        const { id, title, description } = current;
-        const dashedName = dasherize(title);
-        const dirtyDescription = description ? description.join('').trim() : '';
-        const formattedChallenge = {
-          blockName: name,
-          id,
-          title,
-          description: stripURLs(stripHTML(dirtyDescription)),
-          url: `/challenges/${block}/${dashedName}`
-        };
-        return [
-          ...acc,
-          ...chunkDocument(
-            formattedChallenge,
-            ['title', 'id', 'blockName', 'url'],
-            'description'
-          )
-        ];
-      }, []);
-    return Observable.of(formattedChallenges);
-  });
+  return Observable.from(getChallenges()).flatMap(
+    ({ name, challenges, superBlock }) => {
+      const block = dasherize(name);
+      const formattedChallenges = challenges
+        .filter(({ isPrivate }) => !isPrivate)
+        .reduce((acc, current) => {
+          const { id, title, description } = current;
+          const dashedName = dasherize(title);
+          const dirtyDescription = description
+            ? description.join('').trim()
+            : '';
+          const formattedChallenge = {
+            blockName: name,
+            id,
+            title,
+            description: stripURLs(stripHTML(dirtyDescription)),
+            url: `/${dasherize(superBlock)}/${block}/${dashedName}`
+          };
+          return [
+            ...acc,
+            ...chunkDocument(
+              formattedChallenge,
+              ['title', 'id', 'blockName', 'url'],
+              'description'
+            )
+          ];
+        }, []);
+      return Observable.of(formattedChallenges);
+    }
+  );
 }
 
 const challengesDir = path.resolve(__dirname, './seed/challenges');

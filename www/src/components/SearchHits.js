@@ -14,7 +14,7 @@ import './hits.css';
 const indexMap = {
   challenges: {
     title: 'Lesson',
-    url: 'https://beta.freecodecamp.org'
+    url: 'https://learn.freecodecamp.org'
   },
   guides: {
     title: 'Guide',
