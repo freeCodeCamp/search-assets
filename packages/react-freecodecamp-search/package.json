@@ -1,6 +1,6 @@
 {
   "name": "react-freecodecamp-search",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "A React component that utilises our Algolia Search instance",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
     "lint": "eslint --fix --ext .js,.jsx --ignore-path .gitignore . --ignore-pattern dist/",
     "inspect": "NODE_ENV=production webpack --profile --json > webpack-stats.json",
     "pretest": "npm run build",
-    "prepare": "npm run build",
+    "prepare": "npm test",
     "test": "jest",
     "test:watch": "jest --watch"
   },
