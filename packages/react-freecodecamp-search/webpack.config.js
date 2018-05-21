@@ -24,7 +24,10 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|dist)/,
+        exclude: modulePath => (
+          /node_modules/.test(modulePath) &&
+          !(/node_modules\/strict\-uri\-encode/).test(modulePath)
+        ),
         loader: 'babel-loader'
       },
       {
