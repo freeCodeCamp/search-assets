@@ -10,6 +10,7 @@ export const overrides = `
   .ais-Hits {
     position: absolute;
     width: 90%;
+    background-color: #fff;
   }
 
   .ais-Hits-item {
