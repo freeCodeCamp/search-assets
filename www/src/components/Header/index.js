@@ -11,10 +11,12 @@ function Header({ children }) {
     <header>
       <nav>
         <div className="nav-logo">
-          <img
-            alt="freeCodeCamp logo. Learn to code and help non-profits"
-            src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg"
-          />
+        <a class="home-link" href="https://freecodecamp.org">
+            <img
+              alt="freeCodeCamp logo. Learn to code and help non-profits"
+              src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg"
+            />
+          </a>
         </div>
         {children}
       </nav>
