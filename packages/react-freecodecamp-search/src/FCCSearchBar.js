@@ -46,14 +46,38 @@ const handleSubmit = e => {
 };
 
 class FCCSearchBar extends React.PureComponent {
+  state = {
+    collapseSearchHits: false
+  };
+
+  getSearchBarRef = ref => (this.searchBarRef = ref);
+
   componentDidMount() {
     const searchInput = document.querySelector('.ais-SearchBox-input');
     searchInput.id = 'fcc_instantsearch';
+
+    document.addEventListener('click', this.handleClick);
   }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick);
+  }
+
+  handleClick = e => {
+    if (this.searchBarRef.contains(e.target)) {
+      // Click is inside
+      this.setState({ collapseSearchHits: false });
+    } else {
+      // Click is outside
+      this.setState({ collapseSearchHits: true });
+    }
+  };
+
   render() {
     const { placeholder } = this.props;
+    const collapseSearchHits = this.state.collapseSearchHits;
     return (
-      <div className='fcc_searchBar'>
+      <div className='fcc_searchBar' ref={this.getSearchBarRef}>
         <style
           dangerouslySetInnerHTML={{ __html: algolia.concat(overrides) }}
         />
@@ -67,7 +91,10 @@ class FCCSearchBar extends React.PureComponent {
               Search
             </label>
             <SearchBox onSubmit={handleSubmit} translations={{ placeholder }} />
-            <div className='fcc_hits_wrapper'>
+            <div
+              className='fcc_hits_wrapper'
+              style={collapseSearchHits ? {display: 'none'} : {}}
+              >
               <SearchHits handleSubmit={handleSubmit} />
             </div>
           </div>
